@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--    TODO: arrange color codes -->
+    <color name = "main">#FF69CB3A</color>
+    <color name = "favorite">#FFFC9332</color>
+    <color name = "mine">#FF5D5FEF</color>
+
 </resources>

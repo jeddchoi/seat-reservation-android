@@ -50,7 +50,7 @@ dependencies {
 
 
     /* android navigation component */
-
+    // see https://developer.android.com/guide/navigation/navigation-getting-started
     def nav_version = "2.4.1"
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
@@ -61,4 +61,9 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
+
+    /* splash screen compat api */
+    // see https://developer.android.com/guide/topics/ui/splash-screen/migrate
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
 }
