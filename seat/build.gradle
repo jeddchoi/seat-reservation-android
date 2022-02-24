@@ -50,7 +50,6 @@ dependencies {
 
     /* fragment-ktx */
     // see https://developer.android.google.cn/jetpack/androidx/releases/fragment?hl=ko
-    def fragment_version = "1.4.1"
     // Kotlin
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     // Testing Fragments in Isolation
@@ -58,9 +57,6 @@ dependencies {
 
     /* lifecycle */
     // see https://developer.android.google.cn/jetpack/androidx/releases/lifecycle?hl=ko#declaring_dependencies
-    def lifecycle_version = "2.5.0-alpha02"
-    def arch_version = "2.1.0"
-
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
