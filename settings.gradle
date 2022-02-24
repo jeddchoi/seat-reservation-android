@@ -16,3 +16,4 @@ rootProject.name = "Seat Reservation"
 include ':app'
 include ':auth'
 include ':core'
+include ':seat'
