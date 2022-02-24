@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 
 abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : Fragment() {
+    protected val TAG = this::class.simpleName
+
     private var _dataBinding: VB? = null
     protected val dataBinding: VB
         get() = _dataBinding!!

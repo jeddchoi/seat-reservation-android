@@ -28,6 +28,6 @@ class SeatFragment : BaseViewBindingFragment<SeatFragmentBinding, SeatViewModel>
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): SeatFragmentBinding = SeatFragmentBinding.inflate(inflater, container, false)
 
     override fun scrollToTop() {
-        Log.i(TAG, "scrollToTop: ")
+        Log.i(TAG, "scrollToTop")
     }
 }
