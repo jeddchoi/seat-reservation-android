@@ -38,6 +38,7 @@ android {
 
 dependencies {
     // module dependencies
+    implementation project(':core')
     implementation project(':auth')
     implementation project(':seat')
     implementation project(':history')
