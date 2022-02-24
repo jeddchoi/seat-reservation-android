@@ -1,31 +1,27 @@
 package jed.choi.seat
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import jed.choi.core.BaseViewBindingFragment
+import jed.choi.seat.databinding.SeatFragmentBinding
 
-class SeatFragment : Fragment() {
+class SeatFragment : BaseViewBindingFragment<SeatFragmentBinding, SeatViewModel>() {
 
     companion object {
         fun newInstance() = SeatFragment()
     }
-
-    private lateinit var viewModel: SeatViewModel
+    override val viewModel: SeatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.seat_fragment, container, false)
+    ): View {
+
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(SeatViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): SeatFragmentBinding = SeatFragmentBinding.inflate(inflater, container, false)
 }

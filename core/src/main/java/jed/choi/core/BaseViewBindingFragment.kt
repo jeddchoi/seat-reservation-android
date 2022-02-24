@@ -13,12 +13,14 @@ abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragm
     protected val viewBinding: VB
         get() = _viewBinding!!
 
+    protected abstract val viewModel: VM
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _viewBinding = getBinding()
+    ): View {
+        _viewBinding = getBinding(inflater, container)
         return viewBinding.root
     }
 
@@ -27,5 +29,5 @@ abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragm
         super.onDestroyView()
     }
 
-    abstract fun getBinding(): VB
+    abstract fun getBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 }
