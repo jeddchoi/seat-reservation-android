@@ -71,4 +71,10 @@ dependencies {
     /* splash screen compat api */
     // see https://developer.android.com/guide/topics/ui/splash-screen/migrate
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+
+
+    /* leak canary */
+    // debugImplementation because LeakCanary should only run in debug builds.
+    // see https://square.github.io/leakcanary/getting_started/
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 }
