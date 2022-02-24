@@ -1,0 +1,31 @@
+package jed.choi.core
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.viewbinding.ViewBinding
+
+abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
+    private var _viewBinding: VB? = null
+    protected val viewBinding: VB
+        get() = _viewBinding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _viewBinding = getBinding()
+        return viewBinding.root
+    }
+
+    override fun onDestroyView() {
+        _viewBinding = null
+        super.onDestroyView()
+    }
+
+    abstract fun getBinding(): VB
+}
