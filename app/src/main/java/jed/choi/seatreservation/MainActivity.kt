@@ -33,10 +33,6 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
         }
     }
 
-    companion object {
-        const val TAG = "MainActivity"
-    }
-
 
     override fun getBinding(inflater: LayoutInflater): ActivityMainBinding = ActivityMainBinding.inflate(inflater)
 }
