@@ -85,4 +85,9 @@ dependencies {
     // see https://developer.android.com/training/dependency-injection/hilt-android?hl=ko
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    /* dagger */
+    // see https://developer.android.com/training/dependency-injection/dagger-basics?hl=ko
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 }
