@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import jed.choi.core.BaseViewBindingFragment
-import jed.choi.setting.databinding.SettingFragmentBinding
+import jed.choi.setting.databinding.DetailSettingFragmentBinding
 
-class SettingFragment : BaseViewBindingFragment<SettingFragmentBinding, SettingViewModel>() {
-    override val viewModel: SettingViewModel by viewModels()
+class DetailSettingFragment : BaseViewBindingFragment<DetailSettingFragmentBinding, DetailSettingViewModel>() {
 
     companion object {
-        fun newInstance() = SettingFragment()
+        fun newInstance() = DetailSettingFragment()
     }
+    override val viewModel: DetailSettingViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +26,6 @@ class SettingFragment : BaseViewBindingFragment<SettingFragmentBinding, SettingV
     override fun getBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): SettingFragmentBinding = SettingFragmentBinding.inflate(inflater, container, false)
+    ): DetailSettingFragmentBinding = DetailSettingFragmentBinding.inflate(inflater, container, false)
 
 }

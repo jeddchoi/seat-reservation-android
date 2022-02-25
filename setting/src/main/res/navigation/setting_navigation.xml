@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_navigation"
+    app:startDestination="@id/listSettingFragment">
+
+    <fragment
+        android:id="@+id/listSettingFragment"
+        android:name="jed.choi.setting.ListSettingFragment"
+        android:label="ListSettingFragment" >
+        <action
+            android:id="@+id/action_listSettingFragment_to_detailSettingFragment"
+            app:destination="@id/detailSettingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailSettingFragment"
+        android:name="jed.choi.setting.DetailSettingFragment"
+        android:label="DetailSettingFragment" />
+</navigation>
