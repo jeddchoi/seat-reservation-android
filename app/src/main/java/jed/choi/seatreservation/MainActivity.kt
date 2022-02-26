@@ -6,10 +6,13 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.core.BaseViewBindingActivity
 import jed.choi.core.ScrollableToTop
 import jed.choi.seatreservation.databinding.ActivityMainBinding
 
+
+@AndroidEntryPoint
 class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
 
