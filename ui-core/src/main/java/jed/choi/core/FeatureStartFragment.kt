@@ -1,9 +1,7 @@
 package jed.choi.core
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
@@ -15,14 +13,10 @@ abstract class FeatureStartFragment<VB : ViewDataBinding, VM : ViewModel> : Base
         get() = _featureNavController!!
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         _featureNavController = getNavController()
         setupToolbar()
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDestroyView() {
