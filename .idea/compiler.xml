@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="Seat_Reservation.app" target="11" />
+      <module name="Seat_Reservation.auth" target="11" />
+      <module name="Seat_Reservation.ui-core" target="11" />
+      <module name="Seat_Reservation.ui-dashboard" target="11" />
+      <module name="Seat_Reservation.ui-history" target="11" />
+      <module name="Seat_Reservation.ui-seat" target="11" />
+      <module name="Seat_Reservation.ui-setting" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
