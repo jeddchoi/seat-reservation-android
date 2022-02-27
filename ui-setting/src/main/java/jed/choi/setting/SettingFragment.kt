@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import jed.choi.core.BaseViewBindingFragment
+import jed.choi.core.FeatureStartFragment
 import jed.choi.setting.databinding.SettingFragmentBinding
 
-class SettingFragment : BaseViewBindingFragment<SettingFragmentBinding, SettingViewModel>() {
+class SettingFragment : FeatureStartFragment<SettingFragmentBinding, SettingViewModel>() {
     override val viewModel: SettingViewModel by viewModels()
 
     companion object {

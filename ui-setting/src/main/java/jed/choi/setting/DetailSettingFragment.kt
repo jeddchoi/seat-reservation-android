@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.core.BaseViewBindingFragment
+import jed.choi.core.FeatureBaseFragment
 import jed.choi.core.di.HiltExample
 import jed.choi.setting.databinding.DetailSettingFragmentBinding
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailSettingFragment : BaseViewBindingFragment<DetailSettingFragmentBinding, DetailSettingViewModel>() {
+class DetailSettingFragment : FeatureBaseFragment<DetailSettingFragmentBinding, DetailSettingViewModel>() {
 
     @Inject
     lateinit var example: HiltExample

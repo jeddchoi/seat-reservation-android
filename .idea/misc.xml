@@ -8,6 +8,12 @@
         <entry key="setting/src/main/res/layout/detail_setting_fragment.xml" value="0.24427083333333333" />
         <entry key="setting/src/main/res/layout/list_setting_fragment.xml" value="0.24427083333333333" />
         <entry key="setting/src/main/res/layout/setting_fragment.xml" value="0.24427083333333333" />
+        <entry key="ui-dashboard/src/main/res/layout/dashboard_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui-history/src/main/res/layout/history_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui-seat/src/main/res/layout/seat_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui-setting/src/main/res/layout/detail_setting_fragment.xml" value="0.25" />
+        <entry key="ui-setting/src/main/res/layout/list_setting_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui-setting/src/main/res/layout/setting_fragment.xml" value="0.44166666666666665" />
       </map>
     </option>
   </component>

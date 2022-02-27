@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import jed.choi.core.BaseViewBindingFragment
+import jed.choi.core.FeatureBaseFragment
 import jed.choi.core.di.HiltExample
 import jed.choi.setting.databinding.ListSettingFragmentBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListSettingFragment : BaseViewBindingFragment<ListSettingFragmentBinding, ListSettingViewModel>() {
+class ListSettingFragment :
+    FeatureBaseFragment<ListSettingFragmentBinding, ListSettingViewModel>() {
 
     @Inject
     lateinit var example: HiltExample
@@ -22,6 +23,7 @@ class ListSettingFragment : BaseViewBindingFragment<ListSettingFragmentBinding, 
     companion object {
         fun newInstance() = ListSettingFragment()
     }
+
     override val viewModel: ListSettingViewModel by viewModels()
 
 
@@ -35,7 +37,7 @@ class ListSettingFragment : BaseViewBindingFragment<ListSettingFragmentBinding, 
         super.onViewCreated(view, savedInstanceState)
 
         Log.i(TAG, "onViewCreated: ${example.counter}")
-        viewBinding.goDetailButton.setOnClickListener {
+        dataBinding.goDetailButton.setOnClickListener {
             findNavController().navigate(R.id.action_listSettingFragment_to_detailSettingFragment)
         }
     }
