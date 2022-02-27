@@ -36,6 +36,5 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
         }
     }
 
-
     override fun getBinding(inflater: LayoutInflater): ActivityMainBinding = ActivityMainBinding.inflate(inflater)
 }

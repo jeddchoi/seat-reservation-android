@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt' // kapt
+    id 'dagger.hilt.android.plugin' // hilt
+    id 'androidx.navigation.safeargs.kotlin' version "${nav_version}" // safeargs
 }
 
 android {

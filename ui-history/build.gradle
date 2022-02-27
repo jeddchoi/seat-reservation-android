@@ -1,7 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'kotlin-kapt' // kapt
+    id 'dagger.hilt.android.plugin' // hilt
+    id 'androidx.navigation.safeargs.kotlin' version "${nav_version}" // safeargs
 }
 
 android {
@@ -64,4 +66,15 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
+    /* android navigation component */
+    // see https://developer.android.com/guide/navigation/navigation-getting-started
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 }
