@@ -42,6 +42,7 @@ android {
 
 dependencies {
     // module dependencies
+    implementation project(':domain')
     implementation project(':auth')
     implementation project(':ui-core')
     implementation project(':ui-seat')
@@ -109,6 +110,11 @@ dependencies {
     // debugImplementation because LeakCanary should only run in debug builds.
     // see https://square.github.io/leakcanary/getting_started/
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+    /* sliding up panel */
+    // see https://github.com/umano/AndroidSlidingUpPanel
+    implementation('com.sothree.slidinguppanel:library:3.4.0')
+
 }
 
 kapt {
