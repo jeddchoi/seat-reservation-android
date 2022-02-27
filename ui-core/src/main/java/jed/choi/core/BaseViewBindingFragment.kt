@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragment(), ScrollableToTop {
+abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     protected val TAG = this::class.simpleName
 
     private var _viewBinding: VB? = null

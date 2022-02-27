@@ -41,9 +41,9 @@ android {
 }
 
 dependencies {
-    implementation project(':ui-core')
     // module dependencies
     implementation project(':auth')
+    implementation project(':ui-core')
     implementation project(':ui-seat')
     implementation project(':ui-history')
     implementation project(':ui-dashboard')
