@@ -12,11 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/auth" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/dashboard" />
-            <option value="$PROJECT_DIR$/history" />
-            <option value="$PROJECT_DIR$/seat" />
-            <option value="$PROJECT_DIR$/setting" />
+            <option value="$PROJECT_DIR$/ui-core" />
+            <option value="$PROJECT_DIR$/ui-dashboard" />
+            <option value="$PROJECT_DIR$/ui-history" />
+            <option value="$PROJECT_DIR$/ui-seat" />
+            <option value="$PROJECT_DIR$/ui-setting" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
