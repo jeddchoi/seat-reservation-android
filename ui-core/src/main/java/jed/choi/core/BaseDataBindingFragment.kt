@@ -26,10 +26,12 @@ abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : F
         return dataBinding.root
     }
 
+
     override fun onDestroyView() {
         _dataBinding = null
         super.onDestroyView()
     }
 
     abstract fun getBinding(inflater: LayoutInflater, container: ViewGroup?): VB
+
 }

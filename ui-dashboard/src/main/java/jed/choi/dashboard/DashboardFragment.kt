@@ -23,4 +23,6 @@ class DashboardFragment : FeatureStartFragment<DashboardFragmentBinding, Dashboa
         container: ViewGroup?
     ): DashboardFragmentBinding = DashboardFragmentBinding.inflate(inflater, container, false)
 
+
+
 }

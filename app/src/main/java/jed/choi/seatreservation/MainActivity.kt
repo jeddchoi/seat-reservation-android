@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,8 @@ import jed.choi.seatreservation.databinding.ActivityMainBinding
 @AndroidEntryPoint
 class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModel: MainViewModel by viewModels()
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,12 +26,20 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
 
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        setupUi()
+    }
+
+    private fun setupUi() {
+        navHostFragment = viewBinding.fragmentContainer.getFragment()
+        navController = navHostFragment.navController
+
         setupBottomNavigation()
     }
 
+
+
     private fun setupBottomNavigation() {
-        val navHostFragment = viewBinding.fragmentContainer.getFragment<NavHostFragment>()
-        val navController = navHostFragment.navController
         viewBinding.bottomNavigation.setupWithNavController(navController)
 
         viewBinding.bottomNavigation.setOnItemReselectedListener {
@@ -37,4 +48,5 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
     }
 
     override fun getBinding(inflater: LayoutInflater): ActivityMainBinding = ActivityMainBinding.inflate(inflater)
+
 }
