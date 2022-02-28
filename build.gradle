@@ -22,4 +22,5 @@ ext {
     arch_version = "2.1.0"
     coroutine_version = "1.6.0"
     lifecycle_runtime_version = "2.4.1"
+    room_version = "2.4.1"
 }
