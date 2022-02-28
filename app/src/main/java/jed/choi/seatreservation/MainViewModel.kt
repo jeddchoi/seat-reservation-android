@@ -22,6 +22,10 @@ class MainViewModel(
     init {
 //        TODO: update slidePanelState depending on mySeatUiState
 //        slidePanelState.update { PanelState.HIDDEN }
+        addRandomUserMessage()
+    }
+
+    fun addRandomUserMessage() {
         _mySeatUiState.update { currentUiState ->
             val messages = currentUiState.userMessages + UserMessage(
                 id = UUID.randomUUID().mostSignificantBits,
@@ -30,11 +34,11 @@ class MainViewModel(
             currentUiState.copy(userMessages = messages)
         }
     }
-
     fun userMessageShown(messageId: Long) {
         _mySeatUiState.update { currentUiState ->
             val messages = currentUiState.userMessages.filterNot { it.id == messageId }
             currentUiState.copy(userMessages = messages)
         }
     }
+
 }

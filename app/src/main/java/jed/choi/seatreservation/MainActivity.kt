@@ -1,6 +1,7 @@
 package jed.choi.seatreservation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -51,7 +52,8 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
         dataBinding.apply {
 //            apply transition depending on SlidingUpPanel offset
 //            TODO: layoutExpanded & layoutCollapsed
-            panelEntireLayout.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
+            panelEntireLayout.addPanelSlideListener(object :
+                SlidingUpPanelLayout.PanelSlideListener {
                 override fun onPanelSlide(panel: View?, slideOffset: Float) {
                     when {
                         slideOffset < 0.0f -> { // hide or reveal
@@ -107,7 +109,18 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mySeatUiState.collect { uiState ->
                     uiState.userMessages.firstOrNull()?.let { userMessage ->
-                        Snackbar.make(dataBinding.bottomNavigation, "${userMessage.id} : ${userMessage.message}", Snackbar.LENGTH_SHORT).show()
+                        Log.i(TAG, "observeViewModel: ${userMessage.id} : ${userMessage.message}")
+                        Snackbar.make(
+                            dataBinding.root,
+                            "${userMessage.id} : ${userMessage.message}",
+                            Snackbar.LENGTH_SHORT
+                        ).apply {
+                            anchorView =
+                                when (viewModel.slidePanelState.value) {
+                                    SlidingUpPanelLayout.PanelState.COLLAPSED -> dataBinding.panelMySeat
+                                    else -> dataBinding.bottomNavigation
+                                }
+                        }.show()
                         // Once the message is displayed and
                         // dismissed, notify the ViewModel.
                         viewModel.userMessageShown(userMessage.id)
