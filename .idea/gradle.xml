@@ -12,8 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/auth" />
+            <option value="$PROJECT_DIR$/ble" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/local" />
+            <option value="$PROJECT_DIR$/network" />
             <option value="$PROJECT_DIR$/ui_core" />
             <option value="$PROJECT_DIR$/ui_dashboard" />
             <option value="$PROJECT_DIR$/ui_history" />
