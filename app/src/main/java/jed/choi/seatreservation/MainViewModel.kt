@@ -2,9 +2,9 @@ package jed.choi.seatreservation
 
 import androidx.lifecycle.ViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
-import jed.choi.domain.MySeatUiState
 import jed.choi.domain.UserSession
 import jed.choi.domain.UserState
+import jed.choi.seatreservation.uistate.MySeatUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
