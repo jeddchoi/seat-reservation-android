@@ -8,14 +8,19 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
+import jed.choi.seatreservation.databinding.ActivityMainBinding
 import jed.choi.ui_core.BaseDataBindingActivity
 import jed.choi.ui_core.ScrollableToTop
-import jed.choi.seatreservation.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -31,8 +36,6 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
         super.onCreate(savedInstanceState)
         setContentView(dataBinding.root)
         dataBinding.viewModel = viewModel
-        dataBinding.lifecycleOwner = this
-
         setupUi()
     }
 
@@ -46,6 +49,8 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
 
     private fun setupMySeatPanel() {
         dataBinding.apply {
+//            apply transition depending on SlidingUpPanel offset
+//            TODO: layoutExpanded & layoutCollapsed
             panelEntireLayout.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
                 override fun onPanelSlide(panel: View?, slideOffset: Float) {
                     when {
@@ -81,10 +86,8 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
                     newState: SlidingUpPanelLayout.PanelState?
                 ) {
                 }
-
             })
         }
-
     }
 
 
@@ -98,6 +101,21 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
 
     override fun getBinding(inflater: LayoutInflater): ActivityMainBinding =
         ActivityMainBinding.inflate(inflater)
+
+    override fun observeViewModel() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mySeatUiState.collect { uiState ->
+                    uiState.userMessages.firstOrNull()?.let { userMessage ->
+                        Snackbar.make(dataBinding.bottomNavigation, "${userMessage.id} : ${userMessage.message}", Snackbar.LENGTH_SHORT).show()
+                        // Once the message is displayed and
+                        // dismissed, notify the ViewModel.
+                        viewModel.userMessageShown(userMessage.id)
+                    }
+                }
+            }
+        }
+    }
 
 }
 

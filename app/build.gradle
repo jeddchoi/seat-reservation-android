@@ -115,6 +115,13 @@ dependencies {
     // see https://github.com/umano/AndroidSlidingUpPanel
     implementation('com.sothree.slidinguppanel:library:3.4.0')
 
+    /* coroutine */
+    // see https://developer.android.com/kotlin/coroutines?hl=ko
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+
+    /* lifecycleScope  */
+    // see https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
 }
 
 kapt {

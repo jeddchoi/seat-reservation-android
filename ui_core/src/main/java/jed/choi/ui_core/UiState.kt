@@ -1,7 +1,7 @@
 package jed.choi.ui_core
 
-abstract class UiState {
-    val userMessages: List<UserMessage> = emptyList()
+interface UiState {
+    val userMessages: List<UserMessage>
 }
 
 data class UserMessage(val id: Long, val message: String)
