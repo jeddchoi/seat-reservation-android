@@ -44,11 +44,11 @@ dependencies {
     // module dependencies
     implementation project(':domain')
     implementation project(':auth')
-    implementation project(':ui-core')
-    implementation project(':ui-seat')
-    implementation project(':ui-history')
-    implementation project(':ui-dashboard')
-    implementation project(':ui-setting')
+    implementation project(':ui_core')
+    implementation project(':ui_seat')
+    implementation project(':ui_history')
+    implementation project(':ui_dashboard')
+    implementation project(':ui_setting')
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

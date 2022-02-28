@@ -30,6 +30,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+
     buildFeatures {
         viewBinding true
         dataBinding true
@@ -37,7 +38,8 @@ android {
 }
 
 dependencies {
-    implementation project(':ui-core')//    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation project(':ui_core')
+//    implementation 'androidx.core:core-ktx:1.7.0'
 //    implementation 'androidx.appcompat:appcompat:1.4.1'
 //    implementation 'com.google.android.material:material:1.5.0'
 //    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -64,11 +66,6 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
-    /* hilt */
-    // see https://developer.android.com/training/dependency-injection/hilt-android?hl=ko
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 
     /* android navigation component */
     // see https://developer.android.com/guide/navigation/navigation-getting-started
@@ -81,4 +78,11 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
+
+    /* hilt */
+    // see https://developer.android.com/training/dependency-injection/hilt-android?hl=ko
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
 }
