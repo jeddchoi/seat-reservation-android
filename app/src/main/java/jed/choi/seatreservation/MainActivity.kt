@@ -45,6 +45,45 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
     }
 
     private fun setupMySeatPanel() {
+        dataBinding.apply {
+            panelEntireLayout.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
+                override fun onPanelSlide(panel: View?, slideOffset: Float) {
+                    when {
+                        slideOffset < 0.0f -> { // hide or reveal
+//                            layoutCollapsed.alpha = 1 + offset
+//                            layoutExpanded.root.alpha = -offset
+                        }
+                        slideOffset == 0.0f -> {
+//                            layoutCollapsed.alpha = 1.0f
+//                            layoutExpanded.root.visibility = View.GONE
+//                            layoutExpanded.root.alpha = 0.0f
+                            bottomNavigation.translationY = 0.0f
+                        }
+                        slideOffset == 1.0f -> {
+//                            layoutCollapsed.visibility = View.GONE
+//                            layoutCollapsed.alpha = 0.0f
+//                            layoutExpanded.root.alpha = 1.0f
+                            bottomNavigation.translationY = 1.0f * bottomNavigation.height
+                        }
+                        0.0f < slideOffset && slideOffset < 1.0f -> {
+                            bottomNavigation.translationY = slideOffset * bottomNavigation.height
+//                            if (layoutCollapsed.visibility != View.VISIBLE) layoutCollapsed.visibility = View.VISIBLE
+//                            if (layoutExpanded.root.visibility != View.VISIBLE) layoutExpanded.root.visibility = View.VISIBLE
+//                            layoutCollapsed.alpha = 1 - slideOffset
+//                            layoutExpanded.root.alpha = slideOffset
+                        }
+                    }
+                }
+
+                override fun onPanelStateChanged(
+                    panel: View?,
+                    previousState: SlidingUpPanelLayout.PanelState?,
+                    newState: SlidingUpPanelLayout.PanelState?
+                ) {
+                }
+
+            })
+        }
 
     }
 
@@ -100,5 +139,4 @@ object BindingAdapter {
     fun getSlideState(view: SlidingUpPanelLayout): SlidingUpPanelLayout.PanelState {
         return view.panelState
     }
-
 }

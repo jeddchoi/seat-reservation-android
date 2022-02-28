@@ -16,6 +16,7 @@
         tools:context=".MainActivity">
 
         <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/panel_entire_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"

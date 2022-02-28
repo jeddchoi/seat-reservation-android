@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="com.sothree.slidinguppanel.SlidingUpPanelLayout">
         <attr name="slideState" format="enum" />
+<!--        <attr name="slideOffset" format="float" />-->
     </declare-styleable>
 </resources>

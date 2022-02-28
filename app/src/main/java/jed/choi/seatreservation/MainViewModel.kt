@@ -14,6 +14,7 @@ class MainViewModel : ViewModel() {
         get() = _mySeatUiState
 
     val slidePanelState = MutableStateFlow(PanelState.COLLAPSED)
+    val slidePanelOffset = MutableStateFlow(0f)
 
 //    init {
 //        slidePanelState.update { PanelState.HIDDEN }
