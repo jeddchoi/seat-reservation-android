@@ -13,8 +13,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
-import jed.choi.core.BaseDataBindingActivity
-import jed.choi.core.ScrollableToTop
+import jed.choi.ui_core.BaseDataBindingActivity
+import jed.choi.ui_core.ScrollableToTop
 import jed.choi.seatreservation.databinding.ActivityMainBinding
 
 

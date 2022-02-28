@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/listSettingFragment"
-        android:name="jed.choi.setting.ListSettingFragment"
+        android:name="jed.choi.ui_setting.ListSettingFragment"
         android:label="ListSettingFragment" >
         <action
             android:id="@+id/action_listSettingFragment_to_detailSettingFragment"
@@ -15,6 +15,6 @@
 
     <fragment
         android:id="@+id/detailSettingFragment"
-        android:name="jed.choi.setting.DetailSettingFragment"
+        android:name="jed.choi.ui_setting.DetailSettingFragment"
         android:label="DetailSettingFragment" />
 </navigation>

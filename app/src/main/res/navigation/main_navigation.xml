@@ -12,18 +12,18 @@
 
     <fragment
         android:id="@+id/nav_seat"
-        android:name="jed.choi.seat.SeatFragment"
+        android:name="jed.choi.ui_seat.SeatFragment"
         android:label="@string/seat" />
     <fragment
         android:id="@+id/nav_history"
-        android:name="jed.choi.history.HistoryFragment"
+        android:name="jed.choi.ui_history.HistoryFragment"
         android:label="@string/history" />
     <fragment
         android:id="@+id/nav_dashboard"
-        android:name="jed.choi.dashboard.DashboardFragment"
+        android:name="jed.choi.ui_dashboard.DashboardFragment"
         android:label="@string/dashboard" />
     <fragment
         android:id="@+id/nav_setting"
-        android:name="jed.choi.setting.SettingFragment"
+        android:name="jed.choi.ui_setting.SettingFragment"
         android:label="@string/setting" />
 </navigation>
