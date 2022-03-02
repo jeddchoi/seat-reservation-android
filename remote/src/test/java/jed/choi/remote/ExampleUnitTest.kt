@@ -1,4 +1,4 @@
-package jed.choi.network
+package jed.choi.remote
 
 import org.junit.Test
 

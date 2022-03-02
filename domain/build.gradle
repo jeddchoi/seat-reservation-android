@@ -10,5 +10,6 @@ java {
 }
 
 dependencies {
+    // This domain module should not include any other projects
     implementation "javax.inject:javax.inject:$java_inject_version"
 }
