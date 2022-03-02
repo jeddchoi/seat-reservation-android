@@ -4,4 +4,4 @@ interface UiState {
 
 }
 
-data class UserMessage(val id: Long, val message: String)
+

@@ -1,4 +1,4 @@
-package jed.choi.data
+package jed.choi.data.repository
 
 import javax.inject.Inject
 import javax.inject.Singleton

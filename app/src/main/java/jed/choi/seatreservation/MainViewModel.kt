@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState
 import jed.choi.domain.UserSession
 import jed.choi.domain.UserState
-import jed.choi.seatreservation.uistate.MySeatUiState
-import jed.choi.ui_core.UserMessage
+import jed.choi.domain.entity.UserMessageEntity
+import jed.choi.seatreservation.model.MySeatUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -27,7 +27,7 @@ class MainViewModel(
 
     fun addRandomUserMessage() {
         _mySeatUiState.update { currentUiState ->
-            val messages = currentUiState.userMessages + UserMessage(
+            val messages = currentUiState.userMessages + UserMessageEntity(
                 id = UUID.randomUUID().mostSignificantBits,
                 message = "No Internet connection"
             )
