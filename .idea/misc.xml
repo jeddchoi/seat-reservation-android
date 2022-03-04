@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26834381551362685" />
+        <entry key="app/src/main/res/layout/bottom_nav_fragment.xml" value="0.4270833333333333" />
+        <entry key="app/src/main/res/layout/fragment_place_holder.xml" value="0.4270833333333333" />
         <entry key="app/src/main/res/layout/sliding_up_panel_myseat.xml" value="0.44166666666666665" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.44166666666666665" />
         <entry key="setting/src/main/res/layout/detail_setting_fragment.xml" value="0.24427083333333333" />

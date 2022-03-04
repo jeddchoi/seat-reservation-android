@@ -32,4 +32,13 @@ abstract class FeatureStartFragment<VB : ViewDataBinding, VM : ViewModel> : Base
     // TODO: make these functions abstract
     open fun getNavController(): NavController = findNavController()
     open fun setupToolbar() {}
+
+
+    override fun setupUi() {
+        // TODO: remove this
+    }
+
+    override fun observeViewModel() {
+        // TODO: remove this
+    }
 }

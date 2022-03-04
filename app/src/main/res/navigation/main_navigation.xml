@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/nav_seat">
-
-<!--    <fragment-->
-<!--        android:id="@+id/place_holder_fragment"-->
-<!--        android:name="jed.choi.seatreservation.PlaceHolderFragment"-->
-<!--        android:label="PlaceHolderFragment" />-->
-
+    app:startDestination="@id/bottomNavFragment">
 
     <fragment
-        android:id="@+id/nav_seat"
-        android:name="jed.choi.ui_seat.SeatFragment"
-        android:label="@string/seat" />
+        android:id="@+id/bottomNavFragment"
+        android:name="jed.choi.seatreservation.BottomNavFragment"
+        android:label="BottomNavFragment" >
+        <action
+            android:id="@+id/action_bottomNavFragment_to_placeHolderFragment"
+            app:destination="@id/placeHolderFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/nav_history"
-        android:name="jed.choi.ui_history.HistoryFragment"
-        android:label="@string/history" />
-    <fragment
-        android:id="@+id/nav_dashboard"
-        android:name="jed.choi.ui_dashboard.DashboardFragment"
-        android:label="@string/dashboard" />
-    <fragment
-        android:id="@+id/nav_setting"
-        android:name="jed.choi.ui_setting.SettingFragment"
-        android:label="@string/setting" />
+        android:id="@+id/placeHolderFragment"
+        android:name="jed.choi.seatreservation.PlaceHolderFragment"
+        android:label="fragment_place_holder"
+        tools:layout="@layout/fragment_place_holder" />
 </navigation>

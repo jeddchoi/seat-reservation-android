@@ -8,7 +8,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 
-abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : Fragment(), ScrollableToTop {
+abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : Fragment() {
     protected val TAG = this::class.simpleName
 
     private var _dataBinding: VB? = null
@@ -23,9 +23,18 @@ abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : F
         savedInstanceState: Bundle?
     ): View {
         _dataBinding = getBinding(inflater, container)
+        dataBinding.lifecycleOwner = viewLifecycleOwner
+
         return dataBinding.root
     }
 
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUi()
+        observeViewModel()
+    }
 
     override fun onDestroyView() {
         _dataBinding = null
@@ -34,4 +43,6 @@ abstract class BaseDataBindingFragment<VB : ViewDataBinding, VM : ViewModel> : F
 
     abstract fun getBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
+    abstract fun setupUi()
+    abstract fun observeViewModel()
 }

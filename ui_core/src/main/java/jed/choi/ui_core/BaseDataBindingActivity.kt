@@ -16,11 +16,12 @@ abstract class BaseDataBindingActivity<VB : ViewDataBinding, VM : ViewModel> : A
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = getBinding(layoutInflater)
+        setupUi()
         dataBinding.lifecycleOwner = this
         observeViewModel()
     }
 
-
     abstract fun getBinding(inflater: LayoutInflater): VB
+    abstract fun setupUi()
     abstract fun observeViewModel()
 }

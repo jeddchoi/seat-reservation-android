@@ -16,8 +16,13 @@ abstract class BaseViewBindingActivity<VB : ViewBinding, VM : ViewModel> : AppCo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = getBinding(layoutInflater)
+        setupUi()
+        observeViewModel()
     }
 
 
     abstract fun getBinding(inflater: LayoutInflater): VB
+
+    abstract fun setupUi()
+    abstract fun observeViewModel()
 }

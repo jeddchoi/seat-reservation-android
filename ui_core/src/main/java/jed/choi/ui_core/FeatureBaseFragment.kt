@@ -9,4 +9,11 @@ import androidx.lifecycle.ViewModel
  */
 abstract class FeatureBaseFragment<VB : ViewDataBinding, VM : ViewModel> : BaseDataBindingFragment<VB, VM>(), ScrollableToTop {
 
+    override fun setupUi() {
+        // TODO: remove this
+    }
+
+    override fun observeViewModel() {
+        // TODO: remove this
+    }
 }

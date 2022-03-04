@@ -26,10 +26,19 @@ abstract class BaseViewBindingFragment<VB : ViewBinding, VM : ViewModel> : Fragm
         return viewBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUi()
+        observeViewModel()
+    }
+
     override fun onDestroyView() {
         _viewBinding = null
         super.onDestroyView()
     }
 
     abstract fun getBinding(inflater: LayoutInflater, container: ViewGroup?): VB
+
+    abstract fun setupUi()
+    abstract fun observeViewModel()
 }
