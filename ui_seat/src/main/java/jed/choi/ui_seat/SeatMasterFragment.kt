@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.ui_core.FeatureBaseFragment
+import jed.choi.ui_core.Navigatable
 import jed.choi.ui_seat.databinding.SeatMasterFragmentBinding
 
 @AndroidEntryPoint
 class SeatMasterFragment : FeatureBaseFragment<SeatMasterFragmentBinding, SeatMasterViewModel>() {
-
     companion object {
         fun newInstance() = SeatMasterFragment()
     }
@@ -32,7 +32,7 @@ class SeatMasterFragment : FeatureBaseFragment<SeatMasterFragmentBinding, SeatMa
     override fun setupUi() {
         super.setupUi()
         dataBinding.buttonTestNavigation.setOnClickListener {
-//            testNavigation()
+            (requireActivity() as Navigatable).navigateToPlaceHolder()
         }
 
     }
