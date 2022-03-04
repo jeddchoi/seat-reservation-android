@@ -12,4 +12,8 @@ java {
 dependencies {
     // This domain module should not include any other projects
     implementation "javax.inject:javax.inject:$java_inject_version"
+
+    /* coroutine */
+    // see https://developer.android.com/kotlin/coroutines?hl=ko
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 }

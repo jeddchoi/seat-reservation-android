@@ -11,5 +11,5 @@ data class MySeatUiState(
     val myState: UserState,
     val mySeat: Seat? = null, // if before user reserve, this is null
     val mySession: UserSession,
-    val userMessages: List<UserMessageEntity> = emptyList(),
+    val userMessage: UserMessageEntity? = null,
 ) : UiState

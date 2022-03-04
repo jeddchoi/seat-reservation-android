@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "com.google.protobuf" version "0.8.17"
+    id 'kotlin-kapt' // kapt
+    id 'dagger.hilt.android.plugin' // hilt
 }
 
 android {
@@ -43,7 +45,8 @@ android {
 
 dependencies {
 
-    implementation project(':domain')
+    implementation project(':data')
+    implementation "javax.inject:javax.inject:$java_inject_version"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -53,10 +56,17 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
+    /* hilt */
+    // see https://developer.android.com/training/dependency-injection/hilt-android?hl=ko
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler_version"
+
     /* room */
     // see https://developer.android.com/jetpack/androidx/releases/room?hl=ko
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"

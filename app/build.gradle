@@ -43,6 +43,9 @@ android {
 dependencies {
     // module dependencies
     implementation project(':domain')
+    implementation project(':data')
+    implementation project(':local')
+    implementation project(':remote')
     implementation project(':auth')
     implementation project(':ui_core')
     implementation project(':ui_seat')
