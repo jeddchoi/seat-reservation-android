@@ -30,6 +30,7 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
     override val viewModel: MainViewModel by viewModels()
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private lateinit var snackbar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // This needed to be here before super.onCreate()
@@ -47,6 +48,18 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
 
         setupBottomNavigation()
         setupMySeatPanel()
+
+        snackbar = Snackbar.make(
+            dataBinding.root,
+            "",
+            Snackbar.LENGTH_SHORT
+        ).apply {
+            setAction(R.string.dismiss) { } // no-op
+            anchorView =
+                if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
+                else dataBinding.bottomNavigation
+
+        }
     }
 
     private fun setupMySeatPanel() {
@@ -112,16 +125,12 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
                 viewModel.userMessage.collect() {
                     it?.let { userMessage ->
                         Log.i(TAG, "Collect! ${userMessage.id}")
-                        Snackbar.make(
-                            dataBinding.root,
-                            "${userMessage.id} : ${userMessage.message}",
-                            Snackbar.LENGTH_SHORT
-                        ).apply {
-                            anchorView =
-                                if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
-                                else dataBinding.bottomNavigation
+
+                        snackbar.apply {
+                            setText("${userMessage.id} : ${userMessage.message}")
                             addCallback(object :
                                 BaseTransientBottomBar.BaseCallback<Snackbar>() {
+
                                 override fun onDismissed(
                                     transientBottomBar: Snackbar?,
                                     event: Int
@@ -130,42 +139,12 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
                                     // Once the message is displayed and
                                     // dismissed, notify the ViewModel.
                                     viewModel.userMessageShown(userMessage.id)
+                                    transientBottomBar?.removeCallback(this)
                                 }
                             })
                         }.show()
                     }
                 }
-//                viewModel.mySeatUiState.collect { uiState ->
-//                    Log.i(TAG, "Collect! ${uiState.userMessage?.id}")
-//                    uiState.userMessage?.let { userMessage ->
-//                        Log.i(TAG, "makeSnackbar ${userMessage.id}")
-//
-//                        Snackbar.make(
-//                            dataBinding.root,
-//                            "${userMessage.id} : ${userMessage.message}",
-//                            Snackbar.LENGTH_SHORT
-//                        ).apply {
-//                            anchorView =
-//                                when (viewModel.slidePanelState.value) {
-//                                    SlidingUpPanelLayout.PanelState.COLLAPSED -> dataBinding.panelMySeat
-//                                    else -> dataBinding.bottomNavigation
-//                                }
-//                            addCallback(object: BaseTransientBottomBar.BaseCallback<Snackbar>() {
-//                                override fun onDismissed(
-//                                    transientBottomBar: Snackbar?,
-//                                    event: Int
-//                                ) {
-//                                    super.onDismissed(transientBottomBar, event)
-//                                    // Once the message is displayed and
-//                                    // dismissed, notify the ViewModel.
-//                                    transientBottomBar?.removeCallback(this)
-//                                    viewModel.userMessageShown(userMessage.id)
-//                                }
-//                            })
-//
-//                        }.show()
-//                    }
-//                }
             }
         }
     }
