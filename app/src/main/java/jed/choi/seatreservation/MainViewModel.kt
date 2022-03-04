@@ -24,28 +24,18 @@ class MainViewModel @Inject constructor(
 //        get() = _mySeatUiState
 
     val userMessage = getUserMessage.invoke().distinctUntilChanged()
-
     val slidePanelState = MutableStateFlow(PanelState.COLLAPSED)
 
 
     init {
 //        TODO: update slidePanelState depending on mySeatUiState
 //        slidePanelState.update { PanelState.HIDDEN }
-        addRandomUserMessage()
     }
 
     fun addRandomUserMessage() {
         viewModelScope.launch {
             addUserMessage.invoke("No Internet connection")
         }
-
-//        _mySeatUiState.update { currentUiState ->
-//            val messages = UserMessageEntity(
-//                id = UUID.randomUUID().mostSignificantBits,
-//                message = "No Internet connection"
-//            )
-//            currentUiState.copy(userMessage = messages)
-//        }
     }
 
     fun userMessageShown(messageId: Long) {
@@ -53,9 +43,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             removeUserMessage.invoke(messageId)
         }
-//        _mySeatUiState.update { currentUiState ->
-//            currentUiState.copy(userMessage = null)
-//        }
     }
 
 }

@@ -1,7 +1,6 @@
 package jed.choi.seatreservation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -124,10 +123,8 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
 
                 viewModel.userMessage.collect() {
                     it?.let { userMessage ->
-                        Log.i(TAG, "Collect! ${userMessage.id}")
-
                         snackbar.apply {
-                            setText("${userMessage.id} : ${userMessage.message}")
+                            setText(userMessage.message)
                             addCallback(object :
                                 BaseTransientBottomBar.BaseCallback<Snackbar>() {
 
