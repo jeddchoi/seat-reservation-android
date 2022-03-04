@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.ActivityMainBinding
+import jed.choi.seatreservation.model.showMyStatePanel
 import jed.choi.ui_core.BaseDataBindingActivity
 import jed.choi.ui_core.ScrollableToTop
 import kotlinx.coroutines.launch
@@ -120,29 +121,42 @@ class MainActivity : BaseDataBindingActivity<ActivityMainBinding, MainViewModel>
     override fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.userMessage.collect() {
+                        it?.let { userMessage ->
+                            snackbar.apply {
+                                setText(userMessage.message)
+                                addCallback(object :
+                                    BaseTransientBottomBar.BaseCallback<Snackbar>() {
 
-                viewModel.userMessage.collect() {
-                    it?.let { userMessage ->
-                        snackbar.apply {
-                            setText(userMessage.message)
-                            addCallback(object :
-                                BaseTransientBottomBar.BaseCallback<Snackbar>() {
-
-                                override fun onDismissed(
-                                    transientBottomBar: Snackbar?,
-                                    event: Int
-                                ) {
-                                    super.onDismissed(transientBottomBar, event)
-                                    // Once the message is displayed and
-                                    // dismissed, notify the ViewModel.
-                                    viewModel.userMessageShown(userMessage.id)
-                                    transientBottomBar?.removeCallback(this)
-                                }
-                            })
-                        }.show()
+                                    override fun onDismissed(
+                                        transientBottomBar: Snackbar?,
+                                        event: Int
+                                    ) {
+                                        super.onDismissed(transientBottomBar, event)
+                                        // Once the message is displayed and
+                                        // dismissed, notify the ViewModel.
+                                        viewModel.userMessageShown(userMessage.id)
+                                        transientBottomBar?.removeCallback(this)
+                                    }
+                                })
+                            }.show()
+                        }
                     }
                 }
+
+                launch {
+                    viewModel.mySeatUiState.collect() {
+                        if (it.showMyStatePanel) {
+                            viewModel.showMyStatePanel()
+                        } else {
+                            viewModel.hideMyStatePanel()
+                        }
+                    }
+                }
+
             }
+
         }
     }
 
