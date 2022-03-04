@@ -1,13 +1,13 @@
 package jed.choi.domain
 
 data class Seat(
-    val name: String,
-    val section: Section,
+    val name: String = "Unknown",
+    val section: Section = Section(),
     val state: SeatState = SeatState.IDLE,
-    val isCloseToWall: Boolean,
-    val isCloseToWindow: Boolean,
-    val isSoloFriendly: Boolean,  // 혼자 앉기 좋은지
-    override val positionInSection: PositionInSection,
+    val isCloseToWall: Boolean = false,
+    val isCloseToWindow: Boolean = false,
+    val isSoloFriendly: Boolean = false,  // 혼자 앉기 좋은지
+    override val positionInSection: PositionInSection = PositionInSection(),
 ) : MapBlock
 
 enum class SeatState {

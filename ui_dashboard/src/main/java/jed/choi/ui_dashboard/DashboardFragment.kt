@@ -3,10 +3,10 @@ package jed.choi.ui_dashboard
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import jed.choi.ui_core.FeatureStartFragment
+import jed.choi.ui_core.FeatureContainerFragment
 import jed.choi.ui_dashboard.databinding.DashboardFragmentBinding
 
-class DashboardFragment : FeatureStartFragment<DashboardFragmentBinding, DashboardViewModel>() {
+class DashboardFragment : FeatureContainerFragment<DashboardFragmentBinding, DashboardViewModel>() {
 
     companion object {
         fun newInstance() = DashboardFragment()
@@ -15,7 +15,7 @@ class DashboardFragment : FeatureStartFragment<DashboardFragmentBinding, Dashboa
     override val viewModel: DashboardViewModel by viewModels()
 
     override fun scrollToTop() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
     override fun getBinding(

@@ -9,20 +9,20 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.ui_core.FeatureBaseFragment
 import jed.choi.ui_core.di.HiltExample
-import jed.choi.ui_setting.databinding.DetailSettingFragmentBinding
+import jed.choi.ui_setting.databinding.SettingDetailFragmentBinding
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailSettingFragment : FeatureBaseFragment<DetailSettingFragmentBinding, DetailSettingViewModel>() {
+class SettingDetailFragment : FeatureBaseFragment<SettingDetailFragmentBinding, SettingDetailViewModel>() {
 
     @Inject
     lateinit var example: HiltExample
 
     companion object {
-        fun newInstance() = DetailSettingFragment()
+        fun newInstance() = SettingDetailFragment()
     }
-    override val viewModel: DetailSettingViewModel by viewModels()
+    override val viewModel: SettingDetailViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -37,10 +37,10 @@ class DetailSettingFragment : FeatureBaseFragment<DetailSettingFragmentBinding, 
     override fun getBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): DetailSettingFragmentBinding = DetailSettingFragmentBinding.inflate(inflater, container, false)
+    ): SettingDetailFragmentBinding = SettingDetailFragmentBinding.inflate(inflater, container, false)
 
     override fun scrollToTop() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
 }

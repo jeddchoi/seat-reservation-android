@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_feature_navigation"
+    app:startDestination="@id/masterFragment">
+
+    <fragment
+        android:id="@+id/masterFragment"
+        android:name="jed.choi.ui_setting.SettingMasterFragment"
+        android:label="MasterFragment">
+        <action
+            android:id="@+id/action_masterFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="jed.choi.ui_setting.SettingDetailFragment"
+        android:label="DetailFragment" />
+</navigation>

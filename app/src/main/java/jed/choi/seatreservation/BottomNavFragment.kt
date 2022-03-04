@@ -61,10 +61,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                 else dataBinding.bottomNavigation
 
         }
-
-        dataBinding.buttonTest.setOnClickListener {
-            testNavigation()
-        }
     }
 
     private fun setupMySeatPanel() {
@@ -114,7 +110,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
 
     private fun setupBottomNavigation() {
         dataBinding.bottomNavigation.setupWithNavController(navController)
-
         dataBinding.bottomNavigation.setOnItemReselectedListener {
             (navHostFragment.childFragmentManager.fragments.firstOrNull() as? ScrollableToTop)?.scrollToTop()
         }

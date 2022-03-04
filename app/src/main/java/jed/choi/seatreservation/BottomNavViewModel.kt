@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jed.choi.domain.Seat
+import jed.choi.domain.UserSession
+import jed.choi.domain.UserState
 import jed.choi.domain.usecase.AddUserMessage
 import jed.choi.domain.usecase.GetUserMessage
 import jed.choi.domain.usecase.GetUserState
@@ -25,8 +28,14 @@ class BottomNavViewModel @Inject constructor(
     private val getUserState: GetUserState,
 ) : ViewModel() {
 
-    private val _mySeatUiState = MutableStateFlow(MySeatUiState())
-    val mySeatUiState : StateFlow<MySeatUiState>
+    private val _mySeatUiState = MutableStateFlow(
+        MySeatUiState(
+            myState = UserState.LOGGED_IN,
+            mySeat = Seat(),
+            mySession = UserSession()
+        )
+    )
+    val mySeatUiState: StateFlow<MySeatUiState>
         get() = _mySeatUiState
 
     val userMessage = getUserMessage.invoke().distinctUntilChanged()

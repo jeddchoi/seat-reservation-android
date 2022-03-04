@@ -17,7 +17,18 @@
         <entry key="ui-setting/src/main/res/layout/detail_setting_fragment.xml" value="0.25" />
         <entry key="ui-setting/src/main/res/layout/list_setting_fragment.xml" value="0.44166666666666665" />
         <entry key="ui-setting/src/main/res/layout/setting_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui_seat/src/main/res/layout/container_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_seat/src/main/res/layout/master_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_seat/src/main/res/layout/seat_container_fragment.xml" value="0.4270833333333333" />
         <entry key="ui_seat/src/main/res/layout/seat_fragment.xml" value="0.15729166666666666" />
+        <entry key="ui_setting/src/main/res/layout/container_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_setting/src/main/res/layout/detail_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_setting/src/main/res/layout/list_setting_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_setting/src/main/res/layout/master_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_setting/src/main/res/layout/setting_container_fragment.xml" value="0.15729166666666666" />
+        <entry key="ui_setting/src/main/res/layout/setting_detail_fragment.xml" value="0.44166666666666665" />
+        <entry key="ui_setting/src/main/res/layout/setting_fragment.xml" value="0.4270833333333333" />
+        <entry key="ui_setting/src/main/res/layout/setting_master_fragment.xml" value="0.15729166666666666" />
       </map>
     </option>
   </component>

@@ -8,6 +8,6 @@ interface MapBlock {
 }
 
 data class PositionInSection(
-    val x: Int,
-    val y: Int
+    val x: Int = 0,
+    val y: Int = 0
 )

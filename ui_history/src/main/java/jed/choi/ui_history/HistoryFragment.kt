@@ -3,10 +3,10 @@ package jed.choi.ui_history
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import jed.choi.ui_core.FeatureStartFragment
+import jed.choi.ui_core.FeatureContainerFragment
 import jed.choi.ui_history.databinding.HistoryFragmentBinding
 
-class HistoryFragment : FeatureStartFragment<HistoryFragmentBinding, HistoryViewModel>() {
+class HistoryFragment : FeatureContainerFragment<HistoryFragmentBinding, HistoryViewModel>() {
 
     companion object {
         fun newInstance() = HistoryFragment()
@@ -16,7 +16,7 @@ class HistoryFragment : FeatureStartFragment<HistoryFragmentBinding, HistoryView
 
 
     override fun scrollToTop() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
 

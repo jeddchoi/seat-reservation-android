@@ -10,27 +10,27 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.ui_core.FeatureBaseFragment
 import jed.choi.ui_core.di.HiltExample
-import jed.choi.ui_setting.databinding.ListSettingFragmentBinding
+import jed.choi.ui_setting.databinding.SettingMasterFragmentBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListSettingFragment :
-    FeatureBaseFragment<ListSettingFragmentBinding, ListSettingViewModel>() {
+class SettingMasterFragment :
+    FeatureBaseFragment<SettingMasterFragmentBinding, SettingMasterViewModel>() {
 
     @Inject
     lateinit var example: HiltExample
 
     companion object {
-        fun newInstance() = ListSettingFragment()
+        fun newInstance() = SettingMasterFragment()
     }
 
-    override val viewModel: ListSettingViewModel by viewModels()
+    override val viewModel: SettingMasterViewModel by viewModels()
 
 
     override fun getBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): ListSettingFragmentBinding = ListSettingFragmentBinding.inflate(inflater, container, false)
+    ): SettingMasterFragmentBinding = SettingMasterFragmentBinding.inflate(inflater, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,11 +38,11 @@ class ListSettingFragment :
 
         Log.i(TAG, "onViewCreated: ${example.counter}")
         dataBinding.goDetailButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listSettingFragment_to_detailSettingFragment)
+            findNavController().navigate(R.id.action_masterFragment_to_detailFragment)
         }
     }
 
     override fun scrollToTop() {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 }

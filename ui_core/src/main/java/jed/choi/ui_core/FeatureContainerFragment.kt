@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
  * Bottom Navigation Feature starting fragment
  * which may hold fragmentContainerView
  */
-abstract class FeatureStartFragment<VB : ViewDataBinding, VM : ViewModel> : BaseDataBindingFragment<VB, VM>(), ScrollableToTop {
+abstract class FeatureContainerFragment<VB : ViewDataBinding, VM : ViewModel> : BaseDataBindingFragment<VB, VM>(), ScrollableToTop {
     private var _featureNavController: NavController? = null
     protected val featureNavController: NavController
         get() = _featureNavController!!

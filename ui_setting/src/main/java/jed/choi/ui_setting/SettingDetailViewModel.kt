@@ -1,7 +1,7 @@
-package jed.choi.ui_seat
+package jed.choi.ui_setting
 
 import androidx.lifecycle.ViewModel
 
-class SeatViewModel : ViewModel() {
+class SettingDetailViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

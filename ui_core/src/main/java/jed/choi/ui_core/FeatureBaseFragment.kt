@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 /**
  * Bottom Navigation Feature base fragment
- * which is sub of [FeatureStartFragment]
+ * which is sub of [FeatureContainerFragment]
  */
 abstract class FeatureBaseFragment<VB : ViewDataBinding, VM : ViewModel> : BaseDataBindingFragment<VB, VM>(), ScrollableToTop {
 
@@ -15,5 +15,5 @@ abstract class FeatureBaseFragment<VB : ViewDataBinding, VM : ViewModel> : BaseD
 
     override fun observeViewModel() {
         // TODO: remove this
-    }
+   }
 }
