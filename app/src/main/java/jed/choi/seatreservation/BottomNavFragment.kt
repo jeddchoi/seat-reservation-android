@@ -66,48 +66,49 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
     }
 
     private fun setupMySeatPanel() {
-        dataBinding.apply {
 //            apply transition depending on SlidingUpPanel offset
-            panelEntireLayout.addPanelSlideListener(object :
-                SlidingUpPanelLayout.PanelSlideListener {
-                override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                    when {
-                        slideOffset < 0.0f -> { // hide or reveal
-                            panelCollapsed.root.alpha = 1 + slideOffset
-                            panelExpanded.root.alpha = -slideOffset
-                        }
-                        slideOffset == 0.0f -> {
-                            panelCollapsed.root.alpha = 1.0f
-                            panelExpanded.root.visibility = View.GONE
-                            panelExpanded.root.alpha = 0.0f
-                            bottomNavigation.translationY = 0.0f
-                        }
-                        slideOffset == 1.0f -> {
-                            panelCollapsed.root.visibility = View.GONE
-                            panelCollapsed.root.alpha = 0.0f
-                            panelExpanded.root.alpha = 1.0f
-                            bottomNavigation.translationY = 1.0f * bottomNavigation.height
-                        }
-                        0.0f < slideOffset && slideOffset < 1.0f -> {
-                            bottomNavigation.translationY = slideOffset * bottomNavigation.height
-                            if (panelCollapsed.root.visibility != View.VISIBLE) panelCollapsed.root.visibility =
-                                View.VISIBLE
-                            if (panelExpanded.root.visibility != View.VISIBLE) panelExpanded.root.visibility =
-                                View.VISIBLE
-                            panelCollapsed.root.alpha = 1 - slideOffset
-                            panelExpanded.root.alpha = slideOffset
-                        }
+        dataBinding.panelEntireLayout.addPanelSlideListener(object :
+            SlidingUpPanelLayout.PanelSlideListener {
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {
+                when {
+                    slideOffset < 0.0f -> { // hide or reveal
+                        panelCollapsed.root.alpha = 1 + slideOffset
+                        panelExpanded.root.alpha = -slideOffset
+                    }
+                    slideOffset == 0.0f -> {
+                        panelCollapsed.root.alpha = 1.0f
+                        panelExpanded.root.visibility = View.GONE
+                        panelExpanded.root.alpha = 0.0f
+                        dataBinding.bottomNavigation.translationY = 0.0f
+                    }
+                    slideOffset == 1.0f -> {
+                        panelCollapsed.root.visibility = View.GONE
+                        panelCollapsed.root.alpha = 0.0f
+                        panelExpanded.root.alpha = 1.0f
+                        dataBinding.bottomNavigation.translationY =
+                            1.0f * dataBinding.bottomNavigation.height
+                    }
+                    0.0f < slideOffset && slideOffset < 1.0f -> {
+                        dataBinding.bottomNavigation.translationY =
+                            slideOffset * dataBinding.bottomNavigation.height
+                        if (panelCollapsed.root.visibility != View.VISIBLE) panelCollapsed.root.visibility =
+                            View.VISIBLE
+                        if (panelExpanded.root.visibility != View.VISIBLE) panelExpanded.root.visibility =
+                            View.VISIBLE
+                        panelCollapsed.root.alpha = 1 - slideOffset
+                        panelExpanded.root.alpha = slideOffset
                     }
                 }
+            }
 
-                override fun onPanelStateChanged(
-                    panel: View?,
-                    previousState: SlidingUpPanelLayout.PanelState?,
-                    newState: SlidingUpPanelLayout.PanelState?
-                ) {
-                }
-            })
-        }
+            override fun onPanelStateChanged(
+                panel: View?,
+                previousState: SlidingUpPanelLayout.PanelState?,
+                newState: SlidingUpPanelLayout.PanelState?
+            ) {
+            }
+        })
+
     }
 
 
