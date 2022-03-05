@@ -22,9 +22,9 @@
             android:gravity="bottom"
             app:slideState="@={viewModel.slidePanelState}"
             app:umanoAnchorPoint="1.0"
-            app:umanoDragView="@id/panel_my_seat"
+            app:umanoDragView="@id/panel_my_seat_collapsed"
             app:umanoOverlay="true"
-            app:umanoPanelHeight="140dp"
+            app:umanoPanelHeight="@dimen/panel_my_seat_height"
             app:umanoParallaxOffset="100dp"
             app:umanoShadowHeight="4dp">
 
@@ -40,31 +40,22 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/panel_my_seat"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/teal_200">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.slidePanelState.name()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <include
+                    android:id="@+id/panel_my_seat_collapsed"
+                    layout="@layout/panel_my_seat_collapsed"
+                    app:viewModel="@{ viewModel }" />
+
+                <include
+                    android:id="@+id/panel_my_seat_expanded"
+                    layout="@layout/panel_my_seat_expanded"
+                    app:viewModel="@{ viewModel }" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-
-<!--        <Button-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="add random user message"-->
-<!--            android:onClick="@{ () -> viewModel.testUserMessage()}" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/button_test"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="test navigation" />-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -19,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.BottomNavFragmentBinding
+import jed.choi.seatreservation.databinding.PanelMySeatCollapsedBinding
+import jed.choi.seatreservation.databinding.PanelMySeatExpandedBinding
 import jed.choi.seatreservation.model.showMyStatePanel
 import jed.choi.ui_core.BaseDataBindingFragment
 import jed.choi.ui_core.ScrollableToTop
@@ -27,8 +28,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, BottomNavViewModel>() {
     override val viewModel: BottomNavViewModel by viewModels()
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
+    private val navHostFragment: NavHostFragment
+        get() = dataBinding.fragmentContainer.getFragment()
+    private val panelExpanded: PanelMySeatExpandedBinding
+        get() = dataBinding.panelMySeatExpanded
+    private val panelCollapsed: PanelMySeatCollapsedBinding
+        get() = dataBinding.panelMySeatCollapsed
+
     private lateinit var snackbar: Snackbar
 
     override fun getBinding(
@@ -43,8 +49,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
     }
 
     override fun setupUi() {
-        navHostFragment = dataBinding.fragmentContainer.getFragment()
-        navController = navHostFragment.navController
 
         setupBottomNavigation()
         setupMySeatPanel()
@@ -58,40 +62,40 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
             anchorView =
                 if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
                 else dataBinding.bottomNavigation
-
         }
     }
 
     private fun setupMySeatPanel() {
         dataBinding.apply {
 //            apply transition depending on SlidingUpPanel offset
-//            TODO: layoutExpanded & layoutCollapsed
             panelEntireLayout.addPanelSlideListener(object :
                 SlidingUpPanelLayout.PanelSlideListener {
                 override fun onPanelSlide(panel: View?, slideOffset: Float) {
                     when {
                         slideOffset < 0.0f -> { // hide or reveal
-//                            layoutCollapsed.alpha = 1 + offset
-//                            layoutExpanded.root.alpha = -offset
+                            panelCollapsed.root.alpha = 1 + slideOffset
+                            panelExpanded.root.alpha = -slideOffset
                         }
                         slideOffset == 0.0f -> {
-//                            layoutCollapsed.alpha = 1.0f
-//                            layoutExpanded.root.visibility = View.GONE
-//                            layoutExpanded.root.alpha = 0.0f
+                            panelCollapsed.root.alpha = 1.0f
+                            panelExpanded.root.visibility = View.GONE
+                            panelExpanded.root.alpha = 0.0f
                             bottomNavigation.translationY = 0.0f
                         }
                         slideOffset == 1.0f -> {
-//                            layoutCollapsed.visibility = View.GONE
-//                            layoutCollapsed.alpha = 0.0f
-//                            layoutExpanded.root.alpha = 1.0f
+                            panelCollapsed.root.visibility = View.GONE
+                            panelCollapsed.root.alpha = 0.0f
+                            panelExpanded.root.alpha = 1.0f
                             bottomNavigation.translationY = 1.0f * bottomNavigation.height
                         }
                         0.0f < slideOffset && slideOffset < 1.0f -> {
                             bottomNavigation.translationY = slideOffset * bottomNavigation.height
-//                            if (layoutCollapsed.visibility != View.VISIBLE) layoutCollapsed.visibility = View.VISIBLE
-//                            if (layoutExpanded.root.visibility != View.VISIBLE) layoutExpanded.root.visibility = View.VISIBLE
-//                            layoutCollapsed.alpha = 1 - slideOffset
-//                            layoutExpanded.root.alpha = slideOffset
+                            if (panelCollapsed.root.visibility != View.VISIBLE) panelCollapsed.root.visibility =
+                                View.VISIBLE
+                            if (panelExpanded.root.visibility != View.VISIBLE) panelExpanded.root.visibility =
+                                View.VISIBLE
+                            panelCollapsed.root.alpha = 1 - slideOffset
+                            panelExpanded.root.alpha = slideOffset
                         }
                     }
                 }
@@ -108,7 +112,7 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
 
 
     private fun setupBottomNavigation() {
-        dataBinding.bottomNavigation.setupWithNavController(navController)
+        dataBinding.bottomNavigation.setupWithNavController(navHostFragment.navController)
         dataBinding.bottomNavigation.setOnItemReselectedListener {
             (navHostFragment.childFragmentManager.fragments.firstOrNull() as? ScrollableToTop)?.scrollToTop()
         }

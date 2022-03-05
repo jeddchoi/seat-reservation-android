@@ -22,9 +22,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BottomNavViewModel @Inject constructor(
+    private val addUserMessage: AddUserMessage,
     private val getUserMessage: GetUserMessage,
     private val removeUserMessage: RemoveUserMessage,
-    private val addUserMessage: AddUserMessage,
     private val getUserState: GetUserState,
 ) : ViewModel() {
 
