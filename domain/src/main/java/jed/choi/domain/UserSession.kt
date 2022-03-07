@@ -256,7 +256,7 @@ data class UserSession(
 
     val elapsedProgressPermillage
         get() = getTimeoutValue(userState)?.let { total ->
-            (elapsedTime / total) * MAX_PROGRESS
+            ((elapsedTime / total) * MAX_PROGRESS).toInt()
         } ?: MAX_PROGRESS
 
     val remainingProgressPermillage
@@ -264,7 +264,7 @@ data class UserSession(
 
 
     companion object {
-        const val MAX_PROGRESS = 1000L
+        const val MAX_PROGRESS = 1000
     }
 }
 

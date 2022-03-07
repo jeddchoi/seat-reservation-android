@@ -46,10 +46,6 @@ class BottomNavViewModel @Inject constructor(
     /*
      for progress indicator
      */
-    private val _maxProgress = MutableStateFlow(100)
-    val maxProgress : StateFlow<Int>
-        get() = _maxProgress
-
     private val _progress = MutableStateFlow(0)
     val progress : StateFlow<Int>
         get() = _progress

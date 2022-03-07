@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="jed.choi.domain.UserSession"/>
         <variable
             name="viewModel"
             type="jed.choi.seatreservation.BottomNavViewModel" />
@@ -29,7 +30,7 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:max="@{ viewModel.maxProgress }"
+            android:max="@{ UserSession.MAX_PROGRESS }"
             android:progress="@{ viewModel.progress }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
