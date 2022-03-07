@@ -4,18 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jed.choi.domain.Seat
-import jed.choi.domain.UserSession
-import jed.choi.domain.UserState
 import jed.choi.domain.usecase.AddUserMessage
 import jed.choi.domain.usecase.GetUserMessage
 import jed.choi.domain.usecase.GetUserState
 import jed.choi.domain.usecase.RemoveUserMessage
+import jed.choi.seatreservation.mapper.toSeatUiState
 import jed.choi.seatreservation.model.MySeatUiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,35 +23,32 @@ class BottomNavViewModel @Inject constructor(
     private val getUserState: GetUserState,
 ) : ViewModel() {
 
-    private val _mySeatUiState = MutableStateFlow(
-        MySeatUiState(
-            myState = UserState.LOGGED_IN,
-            mySeat = Seat(),
-            mySession = UserSession()
-        )
-    )
-    val mySeatUiState: StateFlow<MySeatUiState>
-        get() = _mySeatUiState
+    private val _mySeatUiState = MutableStateFlow(MySeatUiState())
+    val mySeatUiState = _mySeatUiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getUserState.invoke().collect {
+                _mySeatUiState.value = it.toSeatUiState()
+            }
+        }
+    }
+
 
     val userMessage = getUserMessage.invoke().distinctUntilChanged()
     val slidePanelState = MutableStateFlow(SlidingUpPanelLayout.PanelState.COLLAPSED)
 
 
-
     /*
      for progress indicator
      */
-    private val _progress = MutableStateFlow(0)
-    val progress : StateFlow<Int>
-        get() = _progress
+    val progress = mySeatUiState.map {
+        if (it.showRemainingTime)
+            it.mySession.remainingProgressPermillage
+        else
+            it.mySession.elapsedProgressPermillage
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
 
-    init {
-        viewModelScope.launch {
-            getUserState.invoke().collect {
-                _progress.value = it.mySession.remainingProgressPermillage
-            }
-        }
-    }
 
     fun testUserMessage() {
         viewModelScope.launch {
@@ -81,7 +73,6 @@ class BottomNavViewModel @Inject constructor(
             SlidingUpPanelLayout.PanelState.HIDDEN
         }
     }
-
 
 
 }

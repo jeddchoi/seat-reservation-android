@@ -7,10 +7,10 @@ import jed.choi.ui_core.UiState
 
 data class MySeatUiState(
     val myName: String = "Unknown",
-    val myState: UserState = UserState.LOGGED_OUT,
     val mySeat: Seat? = null, // if before user reserve, this is null
-    val mySession: UserSession? = null, // if before user login, this is null
+    val mySession: UserSession = UserSession(),
+    val showRemainingTime: Boolean = true,
 ) : UiState
 
-val MySeatUiState.showMyStatePanel : Boolean
-    get() = myState != UserState.LOGGED_OUT && mySeat != null && mySession != null
+val MySeatUiState.showMyStatePanel: Boolean
+    get() = mySession.userState != UserState.LOGGED_OUT && mySeat != null
