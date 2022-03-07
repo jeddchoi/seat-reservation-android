@@ -41,6 +41,19 @@ class BottomNavViewModel @Inject constructor(
     val userMessage = getUserMessage.invoke().distinctUntilChanged()
     val slidePanelState = MutableStateFlow(SlidingUpPanelLayout.PanelState.COLLAPSED)
 
+
+
+    /*
+     for progress indicator
+     */
+    private val _maxProgress = MutableStateFlow(100)
+    val maxProgress : StateFlow<Int>
+        get() = _maxProgress
+
+    private val _progress = MutableStateFlow(0)
+    val progress : StateFlow<Int>
+        get() = _progress
+
     fun testUserMessage() {
         viewModelScope.launch {
             addUserMessage.invoke("No Internet connection")
@@ -65,4 +78,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
+    fun setProgress(value: Int) {
+        _progress.update { value }
+    }
 }

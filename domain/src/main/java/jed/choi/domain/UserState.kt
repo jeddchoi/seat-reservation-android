@@ -5,8 +5,8 @@ enum class UserState {
     LOGGED_IN,
     RESERVED,
     USING,
+    BUSINESS,
     AWAY,
-    AWAY_INTENTIONAL,
-    TIMED_OUT, // after user check, it would be LOGGED_IN
+    NEED_USER_CHECK, // after user check, it would be LOGGED_IN because this state is temporary
     BLOCKED,
 }

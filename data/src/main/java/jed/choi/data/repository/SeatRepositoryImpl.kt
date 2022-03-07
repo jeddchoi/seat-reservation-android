@@ -5,8 +5,6 @@ import javax.inject.Singleton
 
 @Singleton
 class SeatRepositoryImpl @Inject constructor() {
-
-
     suspend fun modifyData(example: String) {
 
     }

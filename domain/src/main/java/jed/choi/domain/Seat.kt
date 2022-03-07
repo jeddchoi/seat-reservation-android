@@ -15,6 +15,5 @@ enum class SeatState {
     RESERVED,
     ACQUIRED,
     AWAY,
-    AWAY_INTENTIONAL,
     NOT_USED,
 }
