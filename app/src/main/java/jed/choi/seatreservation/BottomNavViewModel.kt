@@ -50,6 +50,14 @@ class BottomNavViewModel @Inject constructor(
     val progress : StateFlow<Int>
         get() = _progress
 
+    init {
+        viewModelScope.launch {
+            getUserState.invoke().collect {
+                _progress.value = it.mySession.remainingProgressPermillage
+            }
+        }
+    }
+
     fun testUserMessage() {
         viewModelScope.launch {
             addUserMessage.invoke("No Internet connection")
@@ -74,7 +82,6 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun setProgress(value: Int) {
-        _progress.update { value }
-    }
+
+
 }

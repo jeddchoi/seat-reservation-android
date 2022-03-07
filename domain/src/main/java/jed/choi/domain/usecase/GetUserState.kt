@@ -11,5 +11,5 @@ class GetUserState @Inject constructor(
 //    private val seatRepository: SeatRepository,
     private val sessionRepository: SessionRepository,
 ) {
-    operator fun invoke(): Flow<MyUserStateEntity?> = sessionRepository.getUserSession().map { MyUserStateEntity(mySession = it) }
+    operator fun invoke(): Flow<MyUserStateEntity> = sessionRepository.getUserSession().map { MyUserStateEntity(mySession = it) }
 }
