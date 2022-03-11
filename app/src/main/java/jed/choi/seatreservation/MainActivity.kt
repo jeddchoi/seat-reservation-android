@@ -35,7 +35,9 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
     override fun observeViewModel() {}
 
     override fun navigateToPlaceHolder() {
-        viewBinding.mainContainer.findNavController().navigate(R.id.action_bottomNavFragment_to_placeHolderFragment)
+
+        viewBinding.mainContainer.findNavController()
+            .navigate(BottomNavFragmentDirections.actionBottomNavFragmentToPlaceHolderFragment())
     }
 
 }

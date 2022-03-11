@@ -37,8 +37,10 @@ class SettingMasterFragment :
         super.onViewCreated(view, savedInstanceState)
 
         Log.i(TAG, "onViewCreated: ${example.counter}")
+
+
         dataBinding.goDetailButton.setOnClickListener {
-            findNavController().navigate(R.id.action_masterFragment_to_detailFragment)
+            findNavController().navigate(SettingMasterFragmentDirections.actionMasterFragmentToDetailFragment())
         }
     }
 

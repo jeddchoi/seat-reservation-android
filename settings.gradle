@@ -4,14 +4,12 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-//    This handles classpath
+
+    // see https://stackoverflow.com/a/69514340/17446686
     resolutionStrategy {
         eachPlugin {
             if(requested.id.id == 'dagger.hilt.android.plugin') { // for hilt
                 useModule("com.google.dagger:hilt-android-gradle-plugin:2.39.1")
-            }
-            else if(requested.id.id == 'navigation-safe-args-gradle-plugin') { // for SafeArgs
-                useModule("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
             }
         }
     }
@@ -26,7 +24,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Seat Reservation"
 include ':app'
-include ':auth'
 include ':ui_core'
 include ':ui_seat'
 include ':ui_history'
