@@ -5,7 +5,7 @@ import jed.choi.domain.UserSession
 import jed.choi.domain.UserState
 
 data class MyUserStateEntity(
-    val myName: String = "Unknown",
+    val myName: String? = null,
     val mySeat: Seat? = null, // if before user reserve, this is null
     val mySession: UserSession = UserSession(), // if before user login, this is null
 ) {

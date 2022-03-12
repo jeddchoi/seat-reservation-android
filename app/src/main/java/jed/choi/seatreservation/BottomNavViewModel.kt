@@ -23,7 +23,7 @@ class BottomNavViewModel @Inject constructor(
     private val getUserState: GetUserState,
 ) : ViewModel() {
 
-    private val _mySeatUiState = MutableStateFlow(MySeatUiState())
+    private val _mySeatUiState = MutableStateFlow(MySeatUiState("Unknown"))
     val mySeatUiState = _mySeatUiState.asStateFlow()
 
     init {

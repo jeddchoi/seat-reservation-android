@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt' // kapt
     id 'dagger.hilt.android.plugin' // hilt
     id 'androidx.navigation.safeargs.kotlin' // safeargs
+    id 'com.google.gms.google-services' // firebase
 }
 
 android {
@@ -124,6 +125,25 @@ dependencies {
     /* lifecycleScope  */
     // see https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
+
+
+    /* Firebase BoM */
+    // see https://firebase.google.com/docs/android/setup#available-libraries
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
+
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // see https://github.com/firebase/FirebaseUI-Android/tree/master/auth
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 }
 
 kapt {

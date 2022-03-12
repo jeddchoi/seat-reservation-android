@@ -16,7 +16,7 @@ import javax.inject.Inject
 class SessionService : LifecycleService() {
 
     @Inject
-    private lateinit var getUserState: GetUserState
+    lateinit var getUserState: GetUserState
 
     override fun onCreate() {
         super.onCreate()

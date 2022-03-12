@@ -1,6 +1,7 @@
 package jed.choi.seatreservation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.BottomNavFragmentBinding
 import jed.choi.seatreservation.databinding.PanelMySeatCollapsedBinding
 import jed.choi.seatreservation.databinding.PanelMySeatExpandedBinding
-import jed.choi.seatreservation.model.showMyStatePanel
 import jed.choi.ui_core.BaseDataBindingFragment
 import jed.choi.ui_core.ScrollableToTop
 import kotlinx.coroutines.launch
@@ -148,11 +148,13 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
 
                 launch {
                     viewModel.mySeatUiState.collect() {
-                        if (it.showMyStatePanel) {
-                            viewModel.showMyStatePanel()
-                        } else {
-                            viewModel.hideMyStatePanel()
-                        }
+                        Log.i(TAG, "observeViewModel: mySeatUiState = $it")
+                        viewModel.showMyStatePanel()
+//                        if (it.showMyStatePanel) {
+//                            viewModel.showMyStatePanel()
+//                        } else {
+//                            viewModel.hideMyStatePanel()
+//                        }
                     }
                 }
             }

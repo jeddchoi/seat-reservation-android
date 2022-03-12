@@ -6,11 +6,21 @@ import jed.choi.domain.UserState
 import jed.choi.ui_core.UiState
 
 data class MySeatUiState(
-    val myName: String = "Unknown",
+    val myName: String,
     val mySeat: Seat? = null, // if before user reserve, this is null
     val mySession: UserSession = UserSession(),
     val showRemainingTime: Boolean = true,
-) : UiState
+) : UiState {
+
+    override fun toString(): String {
+        return """
+My Name    : $myName
+My Seat    : $mySeat
+My Session ----------- 
+$mySession
+        """.trimIndent()
+    }
+}
 
 val MySeatUiState.showMyStatePanel: Boolean
     get() = mySession.userState != UserState.LOGGED_OUT && mySeat != null

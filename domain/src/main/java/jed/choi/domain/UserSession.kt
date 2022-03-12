@@ -1,5 +1,7 @@
 package jed.choi.domain
 
+import java.text.DateFormat
+
 
 /**
  * 타임아웃 관련 상태는 겹치지 않음
@@ -266,7 +268,35 @@ data class UserSession(
     companion object {
         const val MAX_PROGRESS = 1000
     }
+
+
+    //val userState: UserState = UserState.LOGGED_OUT,
+    //    val loggedInAt: Long? = null,
+    //    val reservedAt: Long? = null,
+    //    val cancelReservationAfter: Long = 600L, // 10 mins in seconds 60*10
+    //    val startedUsingAt: Long? = null,
+    //    val startedBusinessAt: Long? = null,
+    //    val endBusinessAfter: Long = 1800L, // 30 mins in seconds 60*30
+    //    val awayAt: Long? = null,
+    //    val endAwayAfter: Long = 60L, // 1 min in seconds
+    //    val timedOutAt: Long? = null,
+    //    val blockedAt: Long? = null,
+    //    val endBlockAfter: Long = 60L // 1 min in seconds
+    override fun toString(): String {
+        return """
+    userState           : ${userState.name}
+    loggedInAt          : ${loggedInAt?.toFormattedDateString() ?: ""}
+    reservedAt          : ${reservedAt?.toFormattedDateString() ?: ""} < $cancelReservationAfter
+    startedUsingAt      : ${startedUsingAt?.toFormattedDateString() ?: ""}
+    startedBusinessAt   : ${startedBusinessAt?.toFormattedDateString() ?: ""} < $endBusinessAfter
+    awayAt              : ${awayAt?.toFormattedDateString() ?: ""} < $endAwayAfter
+    timedOutAt          : ${timedOutAt?.toFormattedDateString() ?: ""}
+    blockedAt           : ${blockedAt?.toFormattedDateString() ?: ""} < $endBlockAfter
+        """.trimIndent()
+    }
 }
+
+fun Long.toFormattedDateString() = DateFormat.getDateInstance().format(this).toString()
 
 
 

@@ -9,5 +9,5 @@ fun MySeatUiState.toUserStateEntity() = MyUserStateEntity(
 
 
 fun MyUserStateEntity.toSeatUiState() = MySeatUiState(
-    myName, mySeat, mySession
+    myName ?: "Unknown", mySeat, mySession
 )
