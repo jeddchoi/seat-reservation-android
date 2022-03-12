@@ -132,18 +132,16 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
 
     // Add the dependency for the Firebase SDK for Google Analytics
-    // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Declare the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth-ktx'
 
     // see https://github.com/firebase/FirebaseUI-Android/tree/master/auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
 
-    // Also declare the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    // Declare the dependency for the Realtime Database library
+    implementation 'com.google.firebase:firebase-database-ktx'
 }
 
 kapt {

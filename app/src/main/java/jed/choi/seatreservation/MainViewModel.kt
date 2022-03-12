@@ -9,4 +9,11 @@ class MainViewModel @Inject constructor(
 
 ) : ViewModel() {
 
+    fun signIn() {
+
+    }
+
+    fun signOut() {
+
+    }
 }

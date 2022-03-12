@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.BottomNavFragmentBinding
 import jed.choi.seatreservation.databinding.PanelMySeatCollapsedBinding
 import jed.choi.seatreservation.databinding.PanelMySeatExpandedBinding
+import jed.choi.ui_core.Authorizable
 import jed.choi.ui_core.BaseDataBindingFragment
 import jed.choi.ui_core.ScrollableToTop
 import kotlinx.coroutines.launch
@@ -108,7 +109,8 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
             ) {
             }
         })
-
+        panelExpanded.buttonLogin.setOnClickListener { (requireActivity() as Authorizable).startSignIn() }
+        panelExpanded.buttonLogout.setOnClickListener { (requireActivity() as Authorizable).signOut() }
     }
 
 

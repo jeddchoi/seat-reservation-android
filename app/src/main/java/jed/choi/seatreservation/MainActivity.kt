@@ -11,15 +11,14 @@ import androidx.navigation.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
-import com.google.firebase.auth.ActionCodeSettings
 import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.ActivityMainBinding
+import jed.choi.ui_core.Authorizable
 import jed.choi.ui_core.BaseViewBindingActivity
-import jed.choi.ui_core.Navigatable
 
 
 @AndroidEntryPoint
-class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>(), Navigatable {
+class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>(), Authorizable {
     override val viewModel: MainViewModel by viewModels()
 
     private val signInLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -60,14 +59,9 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
     }
 
 
-    private fun startSignIn() {
+    override fun startSignIn() {
         Log.i(TAG, "startSignIn")
 
-        val actionCodeSettings = ActionCodeSettings.newBuilder()
-            .setAndroidPackageName(BuildConfig.APPLICATION_ID, true, null)
-            .setHandleCodeInApp(true)
-            .setUrl("https://google.com")
-            .build()
 
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder() // ... options ...
@@ -75,12 +69,19 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
             .setAvailableProviders(
                 listOf(
                     AuthUI.IdpConfig.GoogleBuilder().build(),
-                    AuthUI.IdpConfig.EmailBuilder().enableEmailLinkSignIn()
-                        .setActionCodeSettings(actionCodeSettings).build()
+                    AuthUI.IdpConfig.EmailBuilder().build()
                 )
             )
             .build()
         signInLauncher.launch(signInIntent)
     }
 
+
+    override fun signOut() {
+        AuthUI.getInstance()
+            .signOut(this)
+//            .addOnCompleteListener {
+//
+//            }
+    }
 }
