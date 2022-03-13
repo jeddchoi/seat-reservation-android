@@ -24,6 +24,7 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding, MainViewModel>
     private val signInLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { result: FirebaseAuthUIAuthenticationResult? ->
+
         Log.i(TAG, "signin result: $result")
     }
 
