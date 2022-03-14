@@ -1,14 +1,11 @@
 package jed.choi.seatreservation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jed.choi.domain.usecase.AddUserMessage
-import jed.choi.domain.usecase.GetUserMessage
-import jed.choi.domain.usecase.GetUserState
-import jed.choi.domain.usecase.RemoveUserMessage
-import jed.choi.seatreservation.mapper.toSeatUiState
+import jed.choi.domain.usecase.*
 import jed.choi.seatreservation.model.MySeatUiState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,7 +17,9 @@ class BottomNavViewModel @Inject constructor(
     private val addUserMessage: AddUserMessage,
     private val getUserMessage: GetUserMessage,
     private val removeUserMessage: RemoveUserMessage,
-    private val getUserState: GetUserState,
+    private val getUserSession: GetUserSession,
+    private val signInWithGoogle: SignInWithGoogle,
+    private val signOut: SignOut,
 ) : ViewModel() {
 
     private val _mySeatUiState = MutableStateFlow(MySeatUiState("Unknown"))
@@ -28,9 +27,17 @@ class BottomNavViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getUserState.invoke().collect {
-                _mySeatUiState.value = it.toSeatUiState()
-            }
+//            getUserSession.invoke().collect {
+//                when (it) {
+//                    is Response.Failure -> {
+//                        Log.i(TAG, "Response is failure: ${it.errorMessage}")}
+//                    Response.Loading -> {
+//                        Log.i(TAG, "Response is loading")
+//                    }
+//                    is Response.Success -> _mySeatUiState.value = it.data.toSeatUiState()
+//                }
+//
+//            }
         }
     }
 
@@ -74,5 +81,28 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
+
+    fun signInWithGoogle(idToken: String) {
+        Log.i(TAG, "signInWithGoogle: idToken = $idToken")
+        viewModelScope.launch {
+            signInWithGoogle.invoke(idToken).collect() {
+                Log.i(TAG, "signInWithGoogle: $it")
+            }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            signOut.invoke().collect() {
+                Log.i(TAG, "signOut: $it")
+            }
+        }
+    }
+
+
+
+    companion object {
+        const val TAG = "BottomNavViewModel"
+    }
 
 }

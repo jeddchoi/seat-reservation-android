@@ -1,11 +1,17 @@
 package jed.choi.domain.repository
 
-import jed.choi.domain.entity.UserEntity
+import jed.choi.domain.entity.Response
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun login() : Boolean
-    suspend fun register() : Boolean
+    fun isUserAuthenticatedInFirebase(): Boolean
 
-    fun getLoggedInUser() : Flow<UserEntity>
+    suspend fun signInWithGoogle(idToken: String): Flow<Response<Boolean>>
+
+    suspend fun signOut(): Flow<Response<Boolean>>
+
+    fun getFirebaseAuthState(): Flow<Boolean>
+
+
+    suspend fun createUserInRealtimeDatabase(): Flow<Response<Boolean>>
 }

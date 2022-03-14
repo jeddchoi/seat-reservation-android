@@ -121,6 +121,7 @@ dependencies {
     /* coroutine */
     // see https://developer.android.com/kotlin/coroutines?hl=ko
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutine_version"
 
     /* lifecycleScope  */
     // see https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko
@@ -136,12 +137,14 @@ dependencies {
 
     // Declare the dependency for the Firebase Authentication library
     implementation 'com.google.firebase:firebase-auth-ktx'
-
-    // see https://github.com/firebase/FirebaseUI-Android/tree/master/auth
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
+    // Also declare the dependency for the Google Play services library and specify its version for Google Login
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     // Declare the dependency for the Realtime Database library
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    // Declare the dependency for the Cloud Firestore library
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }
 
 kapt {

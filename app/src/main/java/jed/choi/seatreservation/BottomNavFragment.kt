@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -14,6 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -21,10 +26,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import jed.choi.seatreservation.databinding.BottomNavFragmentBinding
 import jed.choi.seatreservation.databinding.PanelMySeatCollapsedBinding
 import jed.choi.seatreservation.databinding.PanelMySeatExpandedBinding
-import jed.choi.ui_core.Authorizable
 import jed.choi.ui_core.BaseDataBindingFragment
 import jed.choi.ui_core.ScrollableToTop
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, BottomNavViewModel>() {
@@ -37,6 +42,26 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
         get() = dataBinding.panelMySeatCollapsed
 
     private lateinit var snackbar: Snackbar
+
+    @Inject
+    lateinit var googleSignInClient: GoogleSignInClient
+
+    private val googleSignInLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val googleSignInAccount = task.getResult(ApiException::class.java)
+                    googleSignInAccount?.apply {
+                        idToken?.let { idToken ->
+                            viewModel.signInWithGoogle(idToken)
+                        }
+                    }
+                } catch (e: ApiException) {
+                    print(e.message)
+                }
+            }
+        }
 
     override fun getBinding(
         inflater: LayoutInflater,
@@ -64,6 +89,8 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                 if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
                 else dataBinding.bottomNavigation
         }
+
+        panelExpanded.buttonLogin.setOnClickListener { googleSignInLauncher.launch(googleSignInClient.signInIntent) }
     }
 
     private fun setupMySeatPanel() {
@@ -109,8 +136,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
             ) {
             }
         })
-        panelExpanded.buttonLogin.setOnClickListener { (requireActivity() as Authorizable).startSignIn() }
-        panelExpanded.buttonLogout.setOnClickListener { (requireActivity() as Authorizable).signOut() }
     }
 
 

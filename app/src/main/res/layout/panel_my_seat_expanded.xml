@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="jed.choi.domain.UserSession"/>
+        <import type="jed.choi.domain.UserSession" />
+
         <variable
             name="viewModel"
             type="jed.choi.seatreservation.BottomNavViewModel" />
@@ -101,6 +102,7 @@
             android:id="@+id/button_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ ()-> viewModel.signOut() }"
             android:text="logout"
             app:layout_constraintBottom_toTopOf="@+id/button_stop_using"
             app:layout_constraintEnd_toEndOf="parent"
