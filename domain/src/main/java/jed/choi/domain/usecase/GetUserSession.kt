@@ -1,6 +1,7 @@
 package jed.choi.domain.usecase
 
 import jed.choi.domain.repository.SessionRepository
+import jed.choi.domain.usecase.auth.GetAuthState
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

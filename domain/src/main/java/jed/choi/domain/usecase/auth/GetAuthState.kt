@@ -1,4 +1,4 @@
-package jed.choi.domain.usecase
+package jed.choi.domain.usecase.auth
 
 import jed.choi.domain.repository.AuthRepository
 import javax.inject.Inject

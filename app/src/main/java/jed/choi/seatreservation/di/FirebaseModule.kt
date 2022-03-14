@@ -23,6 +23,7 @@ const val PORT_NUM_PUB_SUB = 8085
 
 const val USERS_REF = "users"
 const val SEATS_REF = "seats"
+const val USER_SESSIONS_REF = "user_sessions"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -55,4 +56,9 @@ object FirebaseModule {
     @Provides
     @Named(SEATS_REF)
     fun provideRealtimeDatabaseSeatsRef(db: FirebaseDatabase) = db.reference.child(SEATS_REF)
+
+
+    @Provides
+    @Named(USER_SESSIONS_REF)
+    fun provideRealtimeDatabaseUserSessionsRef(db: FirebaseDatabase) = db.reference.child(USER_SESSIONS_REF)
 }

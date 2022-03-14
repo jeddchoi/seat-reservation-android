@@ -3,7 +3,7 @@ package jed.choi.ui_seat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jed.choi.domain.usecase.AddUserMessage
+import jed.choi.domain.usecase.message.AddUserMessage
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
