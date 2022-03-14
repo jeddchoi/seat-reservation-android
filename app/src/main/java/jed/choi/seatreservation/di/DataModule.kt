@@ -4,12 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jed.choi.data.repository.SessionRepositoryImpl
 import jed.choi.data.repository.UserMessageRepositoryImpl
 import jed.choi.domain.repository.AuthRepository
 import jed.choi.domain.repository.SessionRepository
 import jed.choi.domain.repository.UserMessageRepository
-import jed.choi.seatreservation.auth.AuthRepositoryImpl
+import jed.choi.seatreservation.repository.AuthRepositoryImpl
+import jed.choi.seatreservation.repository.SessionRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

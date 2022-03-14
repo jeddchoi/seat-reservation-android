@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="jed.choi.domain.UserSession" />
+        <import type="jed.choi.domain.entity.UserSessionEntity" />
 
         <variable
             name="viewModel"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
-            android:max="@{ UserSession.MAX_PROGRESS }"
+            android:max="@{ UserSessionEntity.MAX_PROGRESS }"
             android:progress="@{ viewModel.progress }"
             app:layout_constraintEnd_toStartOf="@+id/text_state"
             app:layout_constraintStart_toStartOf="@+id/text_state"

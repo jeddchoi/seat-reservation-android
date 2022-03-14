@@ -1,4 +1,4 @@
-package jed.choi.seatreservation.auth
+package jed.choi.seatreservation.repository
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
@@ -27,28 +27,6 @@ class AuthRepositoryImpl @Inject constructor(
     @Named(USERS_REF) private val usersRef: CollectionReference,
 ) : AuthRepository {
 
-//    private fun userRefByUid(uid: String) = callbackFlow<Result<UserEntity?>> {
-//        val eventListener = object : ValueEventListener {
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.i(TAG, "onCancelled: $error")
-//                this@callbackFlow.trySendBlocking(Result.failure(error.toException()))
-//            }
-//
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val item = dataSnapshot.getValue(UserEntity::class.java)
-//                Log.i(TAG, "onDataChange: $item")
-//                this@callbackFlow.trySendBlocking(Result.success(item))
-//            }
-//        }
-//
-//        Log.i(TAG, "callbackflow: firebaseAuth.uid = $uid")
-//        userReference.child(uid).addValueEventListener(eventListener)
-//        awaitClose {
-//            userReference.child(uid).removeEventListener(eventListener)
-//        }
-//    }
-
-
     override fun isUserAuthenticatedInFirebase(): Boolean = auth.currentUser != null
 
     override suspend fun signInWithGoogle(idToken: String): Flow<Response<Boolean>> = flow {
@@ -76,9 +54,9 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun getFirebaseAuthState() = callbackFlow {
+    override fun getFirebaseAuthStateUid(): Flow<String?> = callbackFlow {
         val authStateListener = FirebaseAuth.AuthStateListener {
-            trySend(it.currentUser != null)
+            trySend(it.currentUser?.uid)
         }
         auth.addAuthStateListener(authStateListener)
         awaitClose {
@@ -96,7 +74,7 @@ class AuthRepositoryImpl @Inject constructor(
                     PROFILE_PHOTO_URL to photoUrl?.toString(),
                     CREATED_AT to serverTimestamp()
                 )).await().also {
-                    emit(Response.Success(true))
+                    emit(Response.Success(uid))
                 }
             }
         } catch (e: Exception) {

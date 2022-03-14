@@ -7,11 +7,10 @@ interface AuthRepository {
     fun isUserAuthenticatedInFirebase(): Boolean
 
     suspend fun signInWithGoogle(idToken: String): Flow<Response<Boolean>>
-
     suspend fun signOut(): Flow<Response<Boolean>>
 
-    fun getFirebaseAuthState(): Flow<Boolean>
+    fun getFirebaseAuthStateUid(): Flow<String?>
 
 
-    suspend fun createUserInRealtimeDatabase(): Flow<Response<Boolean>>
+    suspend fun createUserInRealtimeDatabase(): Flow<Response<String>>
 }

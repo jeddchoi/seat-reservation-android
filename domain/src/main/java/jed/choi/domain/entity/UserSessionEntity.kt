@@ -1,13 +1,29 @@
-package jed.choi.domain
+package jed.choi.domain.entity
 
+import jed.choi.domain.UserState
 import java.text.DateFormat
+import java.util.*
 
 
 /**
  * 타임아웃 관련 상태는 겹치지 않음
  *
  */
-data class UserSession(
+const val USER_STATE = "userState"
+const val LOGGED_IN_AT = "loggedInAt"
+const val RESERVED_AT = "reservedAt"
+const val CANCEL_RESERVATION_AFTER = "cancelReservationAfter"
+const val STARTED_USING_AT = "startedUsingAt"
+const val STARTED_BUSINESS_AT = "startedBusinessAt"
+const val END_BUSINESS_AFTER = "endBusinessAfter"
+const val AWAY_AT = "awayAt"
+const val END_AWAY_AFTER = "endAwayAfter"
+const val TIMED_OUT_AT = "timedOutAt"
+const val BLOCKED_AT = "blockedAt"
+const val END_BLOCK_AFTER = "endBlockAfter"
+
+
+data class UserSessionEntity(
     val userState: UserState = UserState.LOGGED_OUT,
     val loggedInAt: Long? = null,
     val reservedAt: Long? = null,
@@ -29,7 +45,7 @@ data class UserSession(
         loggedInAt = System.currentTimeMillis()
     )
 
-    fun onLogout() = UserSession()
+    fun onLogout() = UserSessionEntity()
 
 
     /**
@@ -267,6 +283,11 @@ data class UserSession(
 
     companion object {
         const val MAX_PROGRESS = 1000
+
+        const val DEFAULT_CANCEL_RESERVATION_AFTER = 600L
+        const val DEFAULT_END_BUSINESS_AFTER = 1800L
+        const val DEFAULT_END_AWAY_AFTER = 60L
+        const val DEFAULT_END_BLOCK_AFTER = 60L
     }
 
 
@@ -294,6 +315,9 @@ data class UserSession(
     blockedAt           : ${blockedAt?.toFormattedDateString() ?: ""} < $endBlockAfter
         """.trimIndent()
     }
+
+
+
 }
 
 fun Long.toFormattedDateString() = DateFormat.getDateInstance().format(this).toString()

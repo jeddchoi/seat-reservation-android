@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jed.choi.domain.usecase.*
 import jed.choi.domain.usecase.auth.SignInWithGoogle
 import jed.choi.domain.usecase.auth.SignOut
 import jed.choi.domain.usecase.message.AddUserMessage
 import jed.choi.domain.usecase.message.GetUserMessage
 import jed.choi.domain.usecase.message.RemoveUserMessage
+import jed.choi.domain.usecase.session.GetUserSession
 import jed.choi.seatreservation.model.MySeatUiState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -32,17 +32,8 @@ class BottomNavViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-//            getUserSession.invoke().collect {
-//                when (it) {
-//                    is Response.Failure -> {
-//                        Log.i(TAG, "Response is failure: ${it.errorMessage}")}
-//                    Response.Loading -> {
-//                        Log.i(TAG, "Response is loading")
-//                    }
-//                    is Response.Success -> _mySeatUiState.value = it.data.toSeatUiState()
-//                }
-//
-//            }
+            getUserSession.invoke().collect {
+            }
         }
     }
 
