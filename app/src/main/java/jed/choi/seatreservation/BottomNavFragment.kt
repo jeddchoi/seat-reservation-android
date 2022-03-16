@@ -1,7 +1,6 @@
 package jed.choi.seatreservation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,7 +88,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                 if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
                 else dataBinding.bottomNavigation
         }
-
         panelExpanded.buttonLogin.setOnClickListener { googleSignInLauncher.launch(googleSignInClient.signInIntent) }
     }
 
@@ -170,18 +168,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                                 })
                             }.show()
                         }
-                    }
-                }
-
-                launch {
-                    viewModel.mySeatUiState.collect() {
-                        Log.i(TAG, "observeViewModel: mySeatUiState = $it")
-                        viewModel.showMyStatePanel()
-//                        if (it.showMyStatePanel) {
-//                            viewModel.showMyStatePanel()
-//                        } else {
-//                            viewModel.hideMyStatePanel()
-//                        }
                     }
                 }
             }

@@ -6,9 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import jed.choi.data.repository.UserMessageRepositoryImpl
 import jed.choi.domain.repository.AuthRepository
+import jed.choi.domain.repository.SeatRepository
 import jed.choi.domain.repository.SessionRepository
 import jed.choi.domain.repository.UserMessageRepository
 import jed.choi.seatreservation.repository.AuthRepositoryImpl
+import jed.choi.seatreservation.repository.SeatRepositoryImpl
 import jed.choi.seatreservation.repository.SessionRepositoryImpl
 
 @Module
@@ -30,4 +32,10 @@ abstract class DataModule {
     abstract fun bindsAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+
+    @Binds
+    abstract fun bindsSeatRepository(
+        seatRepositoryImpl: SeatRepositoryImpl
+    ): SeatRepository
 }

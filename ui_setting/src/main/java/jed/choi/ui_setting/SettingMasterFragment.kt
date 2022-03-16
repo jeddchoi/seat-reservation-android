@@ -1,7 +1,6 @@
 package jed.choi.ui_setting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +34,6 @@ class SettingMasterFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.i(TAG, "onViewCreated: ${example.counter}")
-
 
         dataBinding.goDetailButton.setOnClickListener {
             findNavController().navigate(SettingMasterFragmentDirections.actionMasterFragmentToDetailFragment())

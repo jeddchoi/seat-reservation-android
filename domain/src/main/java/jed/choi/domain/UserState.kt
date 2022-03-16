@@ -1,7 +1,6 @@
 package jed.choi.domain
 
 enum class UserState {
-    LOGGED_OUT,
     LOGGED_IN,
     RESERVED,
     USING,

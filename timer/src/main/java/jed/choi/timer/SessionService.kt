@@ -7,7 +7,7 @@ import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import jed.choi.domain.usecase.session.GetUserSession
+import jed.choi.domain.usecase.session.ObserveUserSession
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,14 +16,14 @@ import javax.inject.Inject
 class SessionService : LifecycleService() {
 
     @Inject
-    lateinit var getUserSession: GetUserSession
+    lateinit var observeUserSession: ObserveUserSession
 
     override fun onCreate() {
         super.onCreate()
 
         lifecycleScope.launch(Dispatchers.Default) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                getUserSession.invoke().collect() {
+                observeUserSession.invoke().collect() {
 
                 }
             }

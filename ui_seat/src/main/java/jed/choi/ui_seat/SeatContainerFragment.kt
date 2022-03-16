@@ -1,6 +1,5 @@
 package jed.choi.ui_seat
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -28,7 +27,6 @@ class SeatContainerFragment : FeatureContainerFragment<SeatContainerFragmentBind
     override fun getNavController(): NavController = dataBinding.fragmentContainerSeat.getFragment<NavHostFragment>().navController
 
     override fun scrollToTop() {
-        Log.i(TAG, "scrollToTop")
     }
 
 

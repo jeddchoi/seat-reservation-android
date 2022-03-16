@@ -1,16 +1,15 @@
 package jed.choi.domain.entity
 
-import jed.choi.domain.Seat
 import jed.choi.domain.UserState
 
 data class MyUserStateEntity(
-    val myName: String? = null,
-    val mySeat: Seat? = null, // if before user reserve, this is null
-    val mySession: UserSessionEntity = UserSessionEntity(), // if before user login, this is null
+    val user: UserEntity? = null,
+    val mySeat: SeatEntity? = null, // if before user reserve, this is null
+    val mySession: UserSessionEntity? = null, // if before user login, this is null
 ) {
 
-    fun isValid() = mySession.isValidState() && when (mySession.userState) {
-        UserState.LOGGED_OUT,
+    fun isValid() = mySession?.isValidState() == true && when (mySession.userState) {
+        null,
         UserState.LOGGED_IN,
         UserState.NEED_USER_CHECK,
         UserState.BLOCKED -> mySeat == null

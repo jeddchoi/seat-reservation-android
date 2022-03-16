@@ -28,7 +28,6 @@ class SettingContainerFragment : FeatureContainerFragment<SettingContainerFragme
     override fun getNavController(): NavController = dataBinding.fragmentContainerSetting.getFragment<NavHostFragment>().navController
 
     override fun scrollToTop() {
-        Log.i(TAG, "scrollToTop")
     }
 
 

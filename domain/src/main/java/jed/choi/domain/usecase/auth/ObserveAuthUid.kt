@@ -3,8 +3,8 @@ package jed.choi.domain.usecase.auth
 import jed.choi.domain.repository.AuthRepository
 import javax.inject.Inject
 
-class GetAuthState @Inject constructor(
+class ObserveAuthUid @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
-    operator fun invoke() = authRepository.getFirebaseAuthStateUid()
+    operator fun invoke() = authRepository.observeAuthUid()
 }

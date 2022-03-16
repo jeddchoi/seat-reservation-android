@@ -1,7 +1,6 @@
 package jed.choi.ui_setting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,6 @@ class SettingDetailFragment : FeatureBaseFragment<SettingDetailFragmentBinding, 
         savedInstanceState: Bundle?
     ): View {
 
-        Log.i(TAG, "onCreateView: ${example.counter}")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

@@ -2,134 +2,129 @@ package jed.choi.domain.entity
 
 import jed.choi.domain.UserState
 import java.text.DateFormat
-import java.util.*
 
 
 /**
  * 타임아웃 관련 상태는 겹치지 않음
  *
  */
-const val USER_STATE = "userState"
-const val LOGGED_IN_AT = "loggedInAt"
-const val RESERVED_AT = "reservedAt"
-const val CANCEL_RESERVATION_AFTER = "cancelReservationAfter"
-const val STARTED_USING_AT = "startedUsingAt"
-const val STARTED_BUSINESS_AT = "startedBusinessAt"
-const val END_BUSINESS_AFTER = "endBusinessAfter"
-const val AWAY_AT = "awayAt"
-const val END_AWAY_AFTER = "endAwayAfter"
-const val TIMED_OUT_AT = "timedOutAt"
-const val BLOCKED_AT = "blockedAt"
-const val END_BLOCK_AFTER = "endBlockAfter"
 
 
 data class UserSessionEntity(
-    val userState: UserState = UserState.LOGGED_OUT,
+    val userState: UserState? = null,
     val loggedInAt: Long? = null,
     val reservedAt: Long? = null,
-    val cancelReservationAfter: Long = 600L, // 10 mins in seconds 60*10
+    val cancelReservationAfter: Long? = null, // 10 mins in seconds 60*10
     val startedUsingAt: Long? = null,
     val startedBusinessAt: Long? = null,
-    val endBusinessAfter: Long = 1800L, // 30 mins in seconds 60*30
+    val endBusinessAfter: Long? = null, // 30 mins in seconds 60*30
     val awayAt: Long? = null,
-    val endAwayAfter: Long = 60L, // 1 min in seconds
+    val endAwayAfter: Long? = null, // 1 min in seconds
     val timedOutAt: Long? = null,
     val blockedAt: Long? = null,
-    val endBlockAfter: Long = 60L // 1 min in seconds
+    val endBlockAfter: Long? = null // 1 min in seconds
 ) {
-    /**
-     * [UserState.LOGGED_OUT] -> [UserState.LOGGED_IN]
-     */
-    fun onLogin() = copy(
-        userState = UserState.LOGGED_IN,
-        loggedInAt = System.currentTimeMillis()
-    )
-
-    fun onLogout() = UserSessionEntity()
-
-
-    /**
-     * [UserState.LOGGED_IN] -> [UserState.RESERVED]
-     */
-    fun onReserve() = copy(
-        userState = UserState.RESERVED,
-        reservedAt = System.currentTimeMillis()
-    )
-
-    /**
-     * [UserState.RESERVED] -> [UserState.USING]
-     */
-    fun onStartUsing() = copy(
-        userState = UserState.USING,
-        reservedAt = null,
-        startedUsingAt = System.currentTimeMillis()
-    )
-
-    /**
-     * [UserState.RESERVED] -> [UserState.LOGGED_IN]
-     * [UserState.USING] -> [UserState.LOGGED_IN]
-     * [UserState.BUSINESS] -> [UserState.LOGGED_IN]
-     * [UserState.AWAY] -> [UserState.LOGGED_IN]
-     */
-    fun onStopUsing() = copy(
-        userState = UserState.LOGGED_IN,
-        reservedAt = null,
-        startedUsingAt = null,
-        startedBusinessAt = null,
-        awayAt = null
-    )
-
-    /**
-     * [UserState.USING] -> [UserState.BUSINESS]
-     * [UserState.AWAY] -> [UserState.BUSINESS]
-     */
-    fun onStartBusiness() = copy(
-        userState = UserState.BUSINESS,
-        startedBusinessAt = System.currentTimeMillis(),
-        awayAt = null
-    )
-
-    /**
-     * [UserState.USING] -> [UserState.AWAY]
-     */
-    fun onLeaveAway() = copy(
-        userState = UserState.AWAY,
-        awayAt = System.currentTimeMillis()
-    )
-
-    /**
-     * [UserState.BUSINESS] -> [UserState.USING]
-     */
-    fun onStopBusiness() = copy(
-        userState = UserState.USING,
-        startedBusinessAt = null
-    )
-
-    /**
-     * [UserState.AWAY] -> [UserState.USING]
-     */
-    fun onArrive() = copy(
-        userState = UserState.USING,
-        awayAt = null,
-    )
-
-    /**
-     * [UserState.NEED_USER_CHECK] -> [UserState.LOGGED_IN]
-     */
-    fun onUserChecked() = copy(
-        userState = UserState.LOGGED_IN,
-        reservedAt = null,
-        startedUsingAt = null,
-        startedBusinessAt = null,
-        awayAt = null,
-        timedOutAt = null,
-        blockedAt = null,
-    )
+    //    /**
+//     *  [UserState.LOGGED_IN]
+//     */
+//    fun onSignIn() = copy(
+//        userState = UserState.LOGGED_IN,
+//        loggedInAt = System.currentTimeMillis()
+//    )
+//
+//    fun onSignOut() = UserSessionEntity()
+//
+//
+//    /**
+//     * [UserState.LOGGED_IN] -> [UserState.RESERVED]
+//     */
+//    fun onReserve() = copy(
+//        userState = UserState.RESERVED,
+//        reservedAt = System.currentTimeMillis()
+//    )
+//
+//    /**
+//     * [UserState.RESERVED] -> [UserState.USING]
+//     */
+//    fun onStartUsing() = copy(
+//        userState = UserState.USING,
+//        reservedAt = null,
+//        startedUsingAt = System.currentTimeMillis()
+//    )
+//
+//    /**
+//     * [UserState.RESERVED] -> [UserState.LOGGED_IN]
+//     * [UserState.USING] -> [UserState.LOGGED_IN]
+//     * [UserState.BUSINESS] -> [UserState.LOGGED_IN]
+//     * [UserState.AWAY] -> [UserState.LOGGED_IN]
+//     */
+//    fun onStopUsing() = copy(
+//        userState = UserState.LOGGED_IN,
+//        reservedAt = null,
+//        startedUsingAt = null,
+//        startedBusinessAt = null,
+//        awayAt = null
+//    )
+//
+//    /**
+//     * [UserState.USING] -> [UserState.BUSINESS]
+//     * [UserState.AWAY] -> [UserState.BUSINESS]
+//     */
+//    fun onStartBusiness() = copy(
+//        userState = UserState.BUSINESS,
+//        startedBusinessAt = System.currentTimeMillis(),
+//        awayAt = null
+//    )
+//
+//    /**
+//     * [UserState.BUSINESS] -> [UserState.USING]
+//     */
+//    fun onStopBusiness() = copy(
+//        userState = UserState.USING,
+//        startedBusinessAt = null
+//    )
+//
+//    /**
+//     * [UserState.USING] -> [UserState.AWAY]
+//     */
+//    fun onLeaveAway() = copy(
+//        userState = UserState.AWAY,
+//        awayAt = System.currentTimeMillis()
+//    )
+//
+//
+//    /**
+//     * [UserState.AWAY] -> [UserState.USING]
+//     */
+//    fun onResumeUsing() = copy(
+//        userState = UserState.USING,
+//        awayAt = null,
+//    )
+//
+//    /**
+//     * [UserState.NEED_USER_CHECK] -> [UserState.LOGGED_IN]
+//     */
+//    fun onUserChecked() = copy(
+//        userState = UserState.LOGGED_IN,
+//        reservedAt = null,
+//        startedUsingAt = null,
+//        startedBusinessAt = null,
+//        awayAt = null,
+//        timedOutAt = null,
+//        blockedAt = null,
+//    )
+//    fun checkUserState() = userState ?: if (timedOutAt != null) UserState.NEED_USER_CHECK
+//    else if (blockedAt != null && endBlockAfter != null) UserState.BLOCKED
+//    else if (awayAt != null && endAwayAfter != null) UserState.AWAY
+//    else if (startedBusinessAt != null && endBusinessAfter != null) UserState.BUSINESS
+//    else if (startedUsingAt != null) UserState.USING
+//    else if (reservedAt != null && cancelReservationAfter != null) UserState.RESERVED
+//    else TODO()
 
 
     fun isValidState(): Boolean =
         when (userState) {
-            UserState.LOGGED_OUT -> {
+            null -> {
                 (loggedInAt == null) &&
                         (reservedAt == null) &&
                         (startedUsingAt == null) &&
@@ -150,6 +145,7 @@ data class UserSessionEntity(
             UserState.RESERVED -> {
                 (loggedInAt != null) &&
                         (reservedAt != null) &&
+                        (cancelReservationAfter != null) &&
                         (startedUsingAt == null) &&
                         (startedBusinessAt == null) &&
                         (awayAt == null) &&
@@ -171,6 +167,7 @@ data class UserSessionEntity(
                         (reservedAt == null) &&
                         (startedUsingAt != null) &&
                         (startedBusinessAt != null) &&
+                        (endBusinessAfter != null) &&
                         (awayAt == null) &&
                         (timedOutAt == null) &&
                         (blockedAt == null) &&
@@ -182,6 +179,7 @@ data class UserSessionEntity(
                         (startedUsingAt != null) &&
 //                (startedBusinessAt == null) &&
                         (awayAt != null) &&
+                        (endAwayAfter != null) &&
                         (timedOutAt == null) &&
                         (blockedAt == null) &&
                         (!isTimeout)
@@ -203,6 +201,7 @@ data class UserSessionEntity(
 //                (awayAt == null) &&
                         (timedOutAt == null) &&
                         (blockedAt != null) &&
+                        (endBlockAfter != null) &&
                         (!isTimeout)
             }
         }
@@ -212,8 +211,8 @@ data class UserSessionEntity(
      * starting epoch time of state
      * it this is null, user logged out or didn't start not yet
      */
-    fun getStartingTime(state: UserState) = when (state) {
-        UserState.LOGGED_OUT -> null
+    fun getStartingTime(state: UserState?) = when (state) {
+        null -> null
         UserState.LOGGED_IN -> loggedInAt
         UserState.RESERVED -> reservedAt
         UserState.USING -> startedUsingAt
@@ -227,8 +226,8 @@ data class UserSessionEntity(
      * total time in milliseconds of timeout
      * null value means that state don't timeout
      */
-    fun getTimeoutValue(state: UserState) = when (state) {
-        UserState.LOGGED_OUT,
+    fun getTimeoutValue(state: UserState?) = when (state) {
+        null,
         UserState.LOGGED_IN,
         UserState.USING,
         UserState.NEED_USER_CHECK -> null
@@ -236,12 +235,12 @@ data class UserSessionEntity(
         UserState.BUSINESS -> endBusinessAfter
         UserState.AWAY -> endAwayAfter
         UserState.BLOCKED -> endBlockAfter
-    }
+    }?.times(1000L)
 
     /**
      * elapsed time in milliseconds after [state] started
      */
-    fun getElapsedTime(state: UserState) =
+    fun getElapsedTime(state: UserState?) =
         System.currentTimeMillis().minus(getStartingTime(state) ?: 0L)
 
 
@@ -255,7 +254,7 @@ data class UserSessionEntity(
 
 
     val isTimeout
-        get() = willTimeoutAt?.let { it > System.currentTimeMillis() } ?: false
+        get() = willTimeoutAt?.let { it < System.currentTimeMillis() } ?: false
 
     /**
      * remaining time in milliseconds before timeout in this state
@@ -274,12 +273,47 @@ data class UserSessionEntity(
 
     val elapsedProgressPermillage
         get() = getTimeoutValue(userState)?.let { total ->
-            ((elapsedTime / total) * MAX_PROGRESS).toInt()
+            ((elapsedTime.toDouble() / total) * MAX_PROGRESS).toInt()
         } ?: MAX_PROGRESS
 
     val remainingProgressPermillage
         get() = MAX_PROGRESS - elapsedProgressPermillage
 
+
+    fun toMap(): Map<String, Any?> = mapOf(
+        USER_STATE to userState,
+        LOGGED_IN_AT to loggedInAt,
+        RESERVED_AT to reservedAt,
+        CANCEL_RESERVATION_AFTER to cancelReservationAfter,
+        STARTED_USING_AT to startedUsingAt,
+        STARTED_BUSINESS_AT to startedBusinessAt,
+        END_BUSINESS_AFTER to endBusinessAfter,
+        AWAY_AT to awayAt,
+        END_AWAY_AFTER to endAwayAfter,
+        TIMED_OUT_AT to timedOutAt,
+        BLOCKED_AT to blockedAt,
+        END_BLOCK_AFTER to endBlockAfter,
+    )
+
+
+    override fun toString(): String {
+        return """
+    userState                   : ${userState?.name}
+    loggedInAt                  : ${loggedInAt?.toFormattedDateString() ?: ""}
+    reservedAt                  : ${reservedAt?.toFormattedDateString() ?: ""} < $cancelReservationAfter
+    startedUsingAt              : ${startedUsingAt?.toFormattedDateString() ?: ""}
+    startedBusinessAt           : ${startedBusinessAt?.toFormattedDateString() ?: ""} < $endBusinessAfter
+    awayAt                      : ${awayAt?.toFormattedDateString() ?: ""} < $endAwayAfter
+    timedOutAt                  : ${timedOutAt?.toFormattedDateString() ?: ""}
+    blockedAt                   : ${blockedAt?.toFormattedDateString() ?: ""} < $endBlockAfter
+    willTimeoutAt               : ${willTimeoutAt?.toFormattedDateString() ?: ""}
+    isTimeout                   : $isTimeout
+    remainingTimeBeforeTimeout  : $remainingTimeBeforeTimeout
+    elapsedTime                 : $elapsedTime
+    elapsedProgressPermillage   : $elapsedProgressPermillage
+    remainingProgressPermillage : $remainingProgressPermillage
+        """.trimIndent()
+    }
 
     companion object {
         const val MAX_PROGRESS = 1000
@@ -288,39 +322,25 @@ data class UserSessionEntity(
         const val DEFAULT_END_BUSINESS_AFTER = 1800L
         const val DEFAULT_END_AWAY_AFTER = 60L
         const val DEFAULT_END_BLOCK_AFTER = 60L
+
+
+        const val USER_STATE = "userState"
+        const val LOGGED_IN_AT = "loggedInAt"
+        const val RESERVED_AT = "reservedAt"
+        const val CANCEL_RESERVATION_AFTER = "cancelReservationAfter"
+        const val STARTED_USING_AT = "startedUsingAt"
+        const val STARTED_BUSINESS_AT = "startedBusinessAt"
+        const val END_BUSINESS_AFTER = "endBusinessAfter"
+        const val AWAY_AT = "awayAt"
+        const val END_AWAY_AFTER = "endAwayAfter"
+        const val TIMED_OUT_AT = "timedOutAt"
+        const val BLOCKED_AT = "blockedAt"
+        const val END_BLOCK_AFTER = "endBlockAfter"
+
     }
-
-
-    //val userState: UserState = UserState.LOGGED_OUT,
-    //    val loggedInAt: Long? = null,
-    //    val reservedAt: Long? = null,
-    //    val cancelReservationAfter: Long = 600L, // 10 mins in seconds 60*10
-    //    val startedUsingAt: Long? = null,
-    //    val startedBusinessAt: Long? = null,
-    //    val endBusinessAfter: Long = 1800L, // 30 mins in seconds 60*30
-    //    val awayAt: Long? = null,
-    //    val endAwayAfter: Long = 60L, // 1 min in seconds
-    //    val timedOutAt: Long? = null,
-    //    val blockedAt: Long? = null,
-    //    val endBlockAfter: Long = 60L // 1 min in seconds
-    override fun toString(): String {
-        return """
-    userState           : ${userState.name}
-    loggedInAt          : ${loggedInAt?.toFormattedDateString() ?: ""}
-    reservedAt          : ${reservedAt?.toFormattedDateString() ?: ""} < $cancelReservationAfter
-    startedUsingAt      : ${startedUsingAt?.toFormattedDateString() ?: ""}
-    startedBusinessAt   : ${startedBusinessAt?.toFormattedDateString() ?: ""} < $endBusinessAfter
-    awayAt              : ${awayAt?.toFormattedDateString() ?: ""} < $endAwayAfter
-    timedOutAt          : ${timedOutAt?.toFormattedDateString() ?: ""}
-    blockedAt           : ${blockedAt?.toFormattedDateString() ?: ""} < $endBlockAfter
-        """.trimIndent()
-    }
-
-
-
 }
 
-fun Long.toFormattedDateString() = DateFormat.getDateInstance().format(this).toString()
+fun Long.toFormattedDateString() = DateFormat.getDateTimeInstance().format(this).toString()
 
 
 

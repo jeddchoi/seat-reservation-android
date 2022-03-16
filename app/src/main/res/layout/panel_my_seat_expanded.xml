@@ -24,15 +24,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
+            android:indeterminate="false"
             android:max="@{ UserSessionEntity.MAX_PROGRESS }"
             android:progress="@{ viewModel.progress }"
-            app:layout_constraintEnd_toStartOf="@+id/text_state"
-            app:layout_constraintStart_toStartOf="@+id/text_state"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_state"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
@@ -48,6 +49,7 @@
             android:id="@+id/button_start_using"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.startUsing() }"
             android:text="start using"
             app:layout_constraintEnd_toEndOf="@+id/button_leave_away"
             app:layout_constraintTop_toBottomOf="@+id/button_reserve" />
@@ -57,27 +59,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="11dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="14dp"
             android:text="login"
             app:layout_constraintEnd_toEndOf="@+id/button_reserve"
             app:layout_constraintEnd_toStartOf="@+id/button_logout"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button_logout" />
+            app:layout_constraintTop_toBottomOf="@+id/text_state" />
 
         <Button
             android:id="@+id/button_leave_away"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.leaveAwaySeat() }"
             android:text="leave away"
-            app:layout_constraintEnd_toEndOf="@+id/button_arrive"
+            app:layout_constraintEnd_toEndOf="@+id/button_resume_using"
             app:layout_constraintTop_toBottomOf="@+id/button_start_using" />
 
         <Button
-            android:id="@+id/button_arrive"
+            android:id="@+id/button_resume_using"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="arrive"
+            android:onClick="@{ () -> viewModel.resumeUsingSeat() }"
+            android:text="resume using"
             app:layout_constraintEnd_toEndOf="@+id/button_block"
             app:layout_constraintTop_toBottomOf="@+id/button_leave_away" />
 
@@ -88,12 +93,13 @@
             android:layout_marginEnd="14dp"
             android:text="block"
             app:layout_constraintEnd_toStartOf="@+id/button_user_check"
-            app:layout_constraintTop_toBottomOf="@+id/button_arrive" />
+            app:layout_constraintTop_toBottomOf="@+id/button_resume_using" />
 
         <Button
             android:id="@+id/button_reserve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.reserveSeat() }"
             android:text="reserve"
             app:layout_constraintEnd_toEndOf="@+id/button_start_using"
             app:layout_constraintTop_toBottomOf="@+id/button_login" />
@@ -102,46 +108,49 @@
             android:id="@+id/button_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:onClick="@{ ()-> viewModel.signOut() }"
             android:text="logout"
-            app:layout_constraintBottom_toTopOf="@+id/button_stop_using"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_login" />
+            app:layout_constraintStart_toEndOf="@+id/button_login"
+            app:layout_constraintTop_toBottomOf="@+id/text_state" />
 
         <Button
             android:id="@+id/button_stop_using"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.stopUsing() }"
             android:text="stop using"
-            app:layout_constraintBottom_toTopOf="@+id/button_start_business"
-            app:layout_constraintStart_toStartOf="@+id/button_logout" />
-
-        <Button
-            android:id="@+id/button_start_business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="262dp"
-            android:layout_marginBottom="263dp"
-            android:text="start business"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/button_stop_using"
-            app:layout_constraintTop_toBottomOf="@+id/circularProgressIndicator" />
-
-        <Button
-            android:id="@+id/button_stop_business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stop business"
-            app:layout_constraintStart_toStartOf="@+id/button_start_business"
-            app:layout_constraintTop_toBottomOf="@+id/button_start_business" />
+            app:layout_constraintStart_toStartOf="@+id/button_logout"
+            app:layout_constraintTop_toBottomOf="@+id/button_logout" />
 
         <Button
             android:id="@+id/button_user_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:onClick="@{ () -> viewModel.userCheckTimeout() }"
             android:text="user check"
             app:layout_constraintStart_toStartOf="@+id/button_stop_business"
             app:layout_constraintTop_toBottomOf="@+id/button_stop_business" />
+
+        <Button
+            android:id="@+id/button_start_business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.startBusiness() }"
+            android:text="start business"
+            app:layout_constraintStart_toStartOf="@+id/button_stop_using"
+            app:layout_constraintTop_toBottomOf="@+id/button_stop_using" />
+
+        <Button
+            android:id="@+id/button_stop_business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.stopBusiness() }"
+            android:text="stop business"
+            app:layout_constraintStart_toStartOf="@+id/button_start_business"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_business" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
