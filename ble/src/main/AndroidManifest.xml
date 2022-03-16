@@ -2,4 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="jed.choi.ble">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <application>
+        <receiver
+            android:name=".BleScanReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="jed.choi.seatreservation.ACTION_FOUND_DEVICE" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

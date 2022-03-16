@@ -16,6 +16,8 @@ import jed.choi.domain.usecase.session.UserCheckTimeout
 import jed.choi.seatreservation.mapper.toSeatUiState
 import jed.choi.seatreservation.model.MySeatUiState
 import jed.choi.seatreservation.model.ProgressDisplayMode
+import jed.choi.ui_core.MutableEventFlow
+import jed.choi.ui_core.asEventFlow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -52,23 +54,6 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-
-    val userMessage = getUserMessage.invoke().distinctUntilChanged()
-    val slidePanelState = MutableStateFlow(SlidingUpPanelLayout.PanelState.COLLAPSED)
-
-    init {
-        viewModelScope.launch {
-            mySeatUiState.collect() {
-                showMyStatePanel()
-//                if (it.showMyStatePanel) {
-//                    showMyStatePanel()
-//                } else {
-//                    hideMyStatePanel()
-//                }
-            }
-        }
-    }
-
     /*
      for progress indicator
      */
@@ -94,6 +79,8 @@ class BottomNavViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
 
 
+    val userMessage = getUserMessage.invoke().distinctUntilChanged()
+
     fun testUserMessage() {
         viewModelScope.launch {
             addUserMessage.invoke("No Internet connection")
@@ -103,6 +90,21 @@ class BottomNavViewModel @Inject constructor(
     fun userMessageShown(messageId: Long) {
         viewModelScope.launch {
             removeUserMessage.invoke(messageId)
+        }
+    }
+
+    val slidePanelState = MutableStateFlow(SlidingUpPanelLayout.PanelState.COLLAPSED)
+
+    init {
+        viewModelScope.launch {
+            mySeatUiState.collect() {
+                showMyStatePanel()
+//                if (it.showMyStatePanel) {
+//                    showMyStatePanel()
+//                } else {
+//                    hideMyStatePanel()
+//                }
+            }
         }
     }
 
@@ -122,8 +124,37 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
+    private val _eventFlow = MutableEventFlow<Event>()
+    val eventFlow = _eventFlow.asEventFlow()
 
-    fun signInWithGoogle(idToken: String) {
+    fun event(event: Event) {
+        viewModelScope.launch {
+            _eventFlow.emit(event)
+        }
+    }
+
+    fun signInWithGoogle() = event(Event.ClickSignInWithGoogle)
+
+    fun signOut() = event(Event.ClickSignOut)
+
+    fun reserveSeat() = event(Event.ClickReserveSeat("-MyB6poExcCX0Hbtubv1/sections/-MyB7tNK1siP7P5AEvzE/seats/-MyB7tNK1siP7P5AEvzE"))
+
+    fun startUsing() = event(Event.ClickStartUsing)
+
+    fun stopUsing() = event(Event.ClickStopUsing)
+
+    fun startBusiness() = event(Event.ClickStartBusiness)
+
+    fun stopBusiness() = event(Event.ClickStopBusiness)
+
+    fun leaveAwaySeat() = event(Event.ClickLeaveAwaySeat)
+
+    fun resumeUsingSeat() = event(Event.ClickResumeUsingSeat)
+
+    fun userCheckTimeout() = event(Event.ClickUserCheckTimeout)
+
+
+    fun onSignInWithGoogle(idToken: String) {
         viewModelScope.launch {
             signInWithGoogle.invoke(idToken).collect() {
                 Log.e(TAG, "SignInWithGoogle Response : $it")
@@ -131,7 +162,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun signOut() {
+    fun onSignOut() {
         viewModelScope.launch {
             signOut.invoke().collect() {
                 Log.e(TAG, "SignOut Response : $it")
@@ -139,9 +170,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun reserveSeat() {
-        val seatPath =
-            "-MyB6poExcCX0Hbtubv1/sections/-MyB7tNK1siP7P5AEvzE/seats/-MyB7tNK1siP7P5AEvzE"
+    fun onReserveSeat(seatPath: String) {
         viewModelScope.launch {
             reserveSeat.invoke(seatPath).collect() {
                 Log.e(TAG, "ReserveSeat Response : $it")
@@ -149,7 +178,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun startUsing() {
+    fun onStartUsing() {
         viewModelScope.launch {
             startUsing.invoke().collect {
                 Log.e(TAG, "StartUsing Response : $it")
@@ -157,7 +186,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun stopUsing() {
+    fun onStopUsing() {
         viewModelScope.launch {
             stopUsing.invoke().collect {
                 Log.e(TAG, "StopUsing Response : $it")
@@ -165,7 +194,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun startBusiness() {
+    fun onStartBusiness() {
         viewModelScope.launch {
             startBusiness.invoke().collect {
                 Log.e(TAG, "StartBusiness Response : $it")
@@ -173,7 +202,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun stopBusiness() {
+    fun onStopBusiness() {
         viewModelScope.launch {
             stopBusiness.invoke().collect {
                 Log.e(TAG, "StopBusiness Response : $it")
@@ -181,7 +210,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun leaveAwaySeat() {
+    fun onLeaveAwaySeat() {
         viewModelScope.launch {
             leaveAwaySeat.invoke().collect {
                 Log.e(TAG, "LeaveAwaySeat Response : $it")
@@ -189,7 +218,7 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun resumeUsingSeat() {
+    fun onResumeUsingSeat() {
         viewModelScope.launch {
             resumeUsingSeat.invoke().collect {
                 Log.e(TAG, "ResumeUsingSeat Response : $it")
@@ -197,13 +226,28 @@ class BottomNavViewModel @Inject constructor(
         }
     }
 
-    fun userCheckTimeout() {
+    fun onUserCheckTimeout() {
         viewModelScope.launch {
             userCheckTimeout.invoke().collect {
                 Log.e(TAG, "UserCheckTimeout Response : $it")
             }
         }
     }
+
+
+    sealed class Event {
+        object ClickSignInWithGoogle : Event()
+        object ClickSignOut : Event()
+        data class ClickReserveSeat(val seatPath: String) : Event()
+        object ClickStartUsing : Event()
+        object ClickStopUsing : Event()
+        object ClickStartBusiness : Event()
+        object ClickStopBusiness : Event()
+        object ClickLeaveAwaySeat : Event()
+        object ClickResumeUsingSeat : Event()
+        object ClickUserCheckTimeout : Event()
+    }
+
 
     companion object {
         const val TAG = "BottomNavViewModel"

@@ -44,6 +44,7 @@ android {
 
 dependencies {
     // module dependencies
+    implementation project(':ble')
     implementation project(':domain')
     implementation project(':data')
     implementation project(':local')

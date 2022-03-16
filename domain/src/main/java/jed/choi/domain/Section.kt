@@ -5,13 +5,13 @@ import jed.choi.domain.entity.SeatState
 
 data class Section(
     val name: String = "Unknown",
-    val storeId: String? = null,
-    val seats: List<SeatEntity> = emptyList(),
-    val width: Int = 0,
-    val height: Int = 0
+    val number: Int? = null, // major in BLE Packet
+    val seats: List<SeatEntity>? = emptyList(),
+    val width: Int? = null,
+    val height: Int? = null
 ) {
     val maxSeatCount: Int
-        get() = seats.size
+        get() = seats?.size ?: 0
     val availableSeatCount: Int
-        get() = seats.filter { it.state == SeatState.IDLE }.size
+        get() = seats?.filter { it.state == SeatState.IDLE }?.size ?: 0
 }

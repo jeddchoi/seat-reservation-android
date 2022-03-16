@@ -75,6 +75,9 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
+    /* lifecycleScope  */
+    // see https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
 
 
     /* hilt */

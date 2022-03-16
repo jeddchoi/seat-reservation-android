@@ -1,18 +1,20 @@
 package jed.choi.seatreservation
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,11 +24,13 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
+import jed.choi.seatreservation.BottomNavViewModel.Event
 import jed.choi.seatreservation.databinding.BottomNavFragmentBinding
 import jed.choi.seatreservation.databinding.PanelMySeatCollapsedBinding
 import jed.choi.seatreservation.databinding.PanelMySeatExpandedBinding
 import jed.choi.ui_core.BaseDataBindingFragment
 import jed.choi.ui_core.ScrollableToTop
+import jed.choi.ui_core.repeatOnStarted
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -53,12 +57,31 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                     val googleSignInAccount = task.getResult(ApiException::class.java)
                     googleSignInAccount?.apply {
                         idToken?.let { idToken ->
-                            viewModel.signInWithGoogle(idToken)
+                            viewModel.onSignInWithGoogle(idToken)
                         }
                     }
                 } catch (e: ApiException) {
                     print(e.message)
                 }
+            }
+        }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                // Permission is granted. Continue the action or workflow in your
+                // app.
+                Log.i(TAG, "onRequestPermissionsResult: Permission denied by user")
+
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // features requires a permission that the user has denied. At the
+                // same time, respect the user's decision. Don't link to system
+                // settings in an effort to convince the user to change their
+                // decision.
+                Log.i(TAG, "onRequestPermissionsResult: Permission denied by user")
             }
         }
 
@@ -88,7 +111,6 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                 if (viewModel.slidePanelState.value == SlidingUpPanelLayout.PanelState.COLLAPSED) dataBinding.panelMySeat
                 else dataBinding.bottomNavigation
         }
-        panelExpanded.buttonLogin.setOnClickListener { googleSignInLauncher.launch(googleSignInClient.signInIntent) }
     }
 
     private fun setupMySeatPanel() {
@@ -145,34 +167,95 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
     }
 
     override fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.userMessage.collect() {
-                        it?.let { userMessage ->
-                            snackbar.apply {
-                                setText(userMessage.message)
-                                addCallback(object :
-                                    BaseTransientBottomBar.BaseCallback<Snackbar>() {
-
-                                    override fun onDismissed(
-                                        transientBottomBar: Snackbar?,
-                                        event: Int
-                                    ) {
-                                        super.onDismissed(transientBottomBar, event)
-                                        // Once the message is displayed and
-                                        // dismissed, notify the ViewModel.
-                                        viewModel.userMessageShown(userMessage.id)
-                                        transientBottomBar?.removeCallback(this)
-                                    }
-                                })
-                            }.show()
-                        }
+        repeatOnStarted {
+            launch {
+                viewModel.userMessage.collect() {
+                    it?.let { userMessage ->
+                        snackbar.apply {
+                            setText(userMessage.message)
+                            addCallback(object :
+                                BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar?,
+                                    event: Int
+                                ) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    // Once the message is displayed and
+                                    // dismissed, notify the ViewModel.
+                                    viewModel.userMessageShown(userMessage.id)
+                                    transientBottomBar?.removeCallback(this)
+                                }
+                            })
+                        }.show()
                     }
                 }
             }
+            launch {
+                viewModel.eventFlow.collect { event -> handleEvent(event) }
+            }
         }
     }
+
+    private fun handleEvent(event: Event) {
+        when (event) {
+            Event.ClickSignInWithGoogle -> {
+                googleSignInLauncher.launch(googleSignInClient.signInIntent)
+            }
+            Event.ClickSignOut -> viewModel.onSignOut()
+            is Event.ClickReserveSeat -> viewModel.onReserveSeat(event.seatPath)
+            Event.ClickStartUsing -> viewModel.onStartUsing()
+            Event.ClickLeaveAwaySeat -> viewModel.onLeaveAwaySeat()
+            Event.ClickResumeUsingSeat -> viewModel.onResumeUsingSeat()
+            Event.ClickStartBusiness -> viewModel.onStartBusiness()
+            Event.ClickStopBusiness -> viewModel.onStopBusiness()
+            Event.ClickStopUsing -> viewModel.onStopUsing()
+            Event.ClickUserCheckTimeout -> viewModel.onUserCheckTimeout()
+        }
+    }
+
+    private fun setupPermissions(afterGrantedAction: () -> Unit) {
+
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+                afterGrantedAction()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected. In this UI,
+                // include a "cancel" or "no thanks" button that allows the user to
+                // continue using your app without granting the permission.
+
+                val builder = AlertDialog.Builder(requireContext())
+
+                val dialog =
+                    builder.setMessage("Permission to access microphone is required for this app to record audio")
+                        .setTitle("Permission Required")
+                        .setPositiveButton("OK") { dialog, id ->
+                            Log.i(TAG, "setupPermissions: Clicked OK")
+                            requestPermissionLauncher.launch(
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            )
+                        }
+                        .setNegativeButton("Cancel") { dialog, id ->
+                            Log.i(TAG, "setupPermissions: Clicked Cancel")
+                        }.create()
+                dialog.show()
+
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                requestPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            }
+        }
+    }
+
 }
 
 object BindingAdapter {
