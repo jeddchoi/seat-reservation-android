@@ -16,6 +16,7 @@ class ReserveSeat @Inject constructor(
     suspend operator fun invoke(seatPath: String, timeoutInSeconds: Long = UserSessionEntity.DEFAULT_CANCEL_RESERVATION_AFTER) = flow {
         try {
             emit(Response.Loading)
+            if (!seatRepository.isSeatAvailable(seatPath)) throw RuntimeException("$seatPath is not available")
             val session = sessionRepository.getUserSession()
             when (session?.userState) {
                 UserState.LOGGED_IN -> {

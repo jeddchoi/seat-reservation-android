@@ -8,6 +8,8 @@ interface SeatRepository {
     fun observeUserSeat(uid: String): Flow<SeatEntity?>
 
 
+    suspend fun getUserSeat(): SeatEntity?
+    suspend fun isSeatAvailable(path:String): Boolean
     suspend fun onReserveSeat(path: String): Boolean
     suspend fun onStartUsing(): Boolean
     suspend fun onStopUsing(): Boolean

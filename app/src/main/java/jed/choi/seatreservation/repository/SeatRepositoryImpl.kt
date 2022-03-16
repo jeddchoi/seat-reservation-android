@@ -32,12 +32,24 @@ class SeatRepositoryImpl @Inject constructor(
         userSeatsRef.child(uid).observeValue().map { it.getValue(String::class.java) }
             .flowOn(Dispatchers.IO)
 
+    private suspend fun getUserSeatPath(uid: String) =
+        userSeatsRef.child(uid).awaitsSingle()?.getValue(String::class.java)
+
     override fun observeUserSeat(uid: String) = observeUserSeatPath(uid).transformLatest { path ->
         if (path != null)
             emitAll(seatsRef.document("/$path").observeValue().map { it.toObject<SeatEntity>() })
         else emit(null)
     }.flowOn(Dispatchers.IO)
 
+
+    override suspend fun getUserSeat() = auth.currentUser?.uid?.let { uid ->
+        getUserSeatPath(uid)?.let { path ->
+            seatsRef.document(path).get().await().toObject<SeatEntity>()
+        }
+    }
+
+    override suspend fun isSeatAvailable(path: String) =
+        seatsRef.document(path).get().await().toObject<SeatEntity>()?.state == SeatState.IDLE
 
     override suspend fun onReserveSeat(path: String) = withContext(Dispatchers.IO) {
         auth.currentUser?.uid?.let { uid ->
@@ -48,11 +60,6 @@ class SeatRepositoryImpl @Inject constructor(
         return@withContext false
     }
 
-//    {"-MyB7-bs7z3bQDS8puKq":{"-MyB7tNK1siP7P5AEvzE":{"isCloseToWall":false,"isCloseToWindow":false,"isSoloFriendly":false,"name":"Seat_1","path":"-MyB6poExcCX0Hbtubv1/-MyB7-bs7z3bQDS8puKq/-MyB7tNK1siP7P5AEvzE","positionInSection":{"x":0,"y":0},"state":"RESERVED"}}}
-
-
-    private suspend fun getUserSeatPath(uid: String) =
-        userSeatsRef.child(uid).awaitsSingle()?.getValue(String::class.java)
 
     private suspend fun changeSeatState(seatState: SeatState) = withContext(Dispatchers.IO) {
         auth.currentUser?.uid?.let { uid ->

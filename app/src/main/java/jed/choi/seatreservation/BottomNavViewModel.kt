@@ -84,10 +84,11 @@ class BottomNavViewModel @Inject constructor(
                         emit(userSession.remainingProgressPermillage)
                         delay(100L)
                     }
-                    ProgressDisplayMode.NONE -> {} // no - op
+                    ProgressDisplayMode.NONE -> break // no - op
                 }
             }
         }
+        emit(0)
     }.onEach {
         Log.i(TAG, "progress: $it")
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
