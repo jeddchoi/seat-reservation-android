@@ -37,7 +37,9 @@ class SeatRepositoryImpl @Inject constructor(
 
     override fun observeUserSeat(uid: String) = observeUserSeatPath(uid).transformLatest { path ->
         if (path != null)
-            emitAll(seatsRef.document("/$path").observeValue().map { it.toObject<SeatEntity>() })
+            emitAll(seatsRef.document("/$path").observeValue().map {
+                it.toObject<SeatEntity>()
+            })
         else emit(null)
     }.flowOn(Dispatchers.IO)
 

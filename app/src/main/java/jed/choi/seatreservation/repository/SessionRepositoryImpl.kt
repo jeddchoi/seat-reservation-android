@@ -72,11 +72,16 @@ class SessionRepositoryImpl @Inject constructor(
         auth.currentUser?.uid?.let {
             val existingSession =
                 userSessionsRef.child(it).awaitsSingle()?.getValue(UserSessionEntity::class.java)
-            val childUpdates = hashMapOf<String, Any?>(
-                UserSessionEntity.LOGGED_IN_AT to ServerValue.TIMESTAMP,
-            )
-            if (existingSession == null) {
-                childUpdates[UserSessionEntity.USER_STATE] = UserState.LOGGED_IN
+
+            val childUpdates = if (existingSession == null) {
+                hashMapOf<String, Any?>(
+                    UserSessionEntity.USER_STATE to UserState.LOGGED_IN,
+                    UserSessionEntity.LOGGED_IN_AT to ServerValue.TIMESTAMP,
+                )
+            } else {
+                hashMapOf<String, Any?>(
+                    UserSessionEntity.LOGGED_IN_AT to ServerValue.TIMESTAMP,
+                )
             }
 
             userSessionsRef.child(it).updateChildren(childUpdates).await().also {

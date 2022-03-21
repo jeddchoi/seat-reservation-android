@@ -307,11 +307,6 @@ data class UserSessionEntity(
     timedOutAt                  : ${timedOutAt?.toFormattedDateString() ?: ""}
     blockedAt                   : ${blockedAt?.toFormattedDateString() ?: ""} < $endBlockAfter
     willTimeoutAt               : ${willTimeoutAt?.toFormattedDateString() ?: ""}
-    isTimeout                   : $isTimeout
-    remainingTimeBeforeTimeout  : $remainingTimeBeforeTimeout
-    elapsedTime                 : $elapsedTime
-    elapsedProgressPermillage   : $elapsedProgressPermillage
-    remainingProgressPermillage : $remainingProgressPermillage
         """.trimIndent()
     }
 

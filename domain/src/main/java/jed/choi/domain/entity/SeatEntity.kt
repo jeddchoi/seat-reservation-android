@@ -6,10 +6,9 @@ import jed.choi.domain.PositionInSection
 
 data class SeatEntity(
     val name: String? = "Unknown",
-    val path: String? = null,
     val number: Int? = null, // minor in BLE Packet
-    val macAddress: String? = null, // EC:79:0D:56:92:08
-    val bleUuid: String? = null, // 59-00-02-15-1f-4a-e6-a0-00-37-27-58-90-01-27-12-97-42-00-01-00-00-00-01-c3
+    val macAddress: String? = null, // EC:60:5E:E5:34:AC
+    val bleUuid: String? = null, // 1f4ae6a0-0037-2758-9001-271297420001
     val state: SeatState? = SeatState.IDLE,
     val isCloseToWall: Boolean? = false,
     val isCloseToWindow: Boolean? = false,
@@ -30,7 +29,6 @@ data class SeatEntity(
 
     fun toMap(): Map<String, Any?> = mapOf(
         NAME to name,
-        PATH to path,
         STATE to state,
         IS_CLOSE_TO_WALL to isCloseToWall,
         IS_CLOSE_TO_WINDOW to isCloseToWindow,

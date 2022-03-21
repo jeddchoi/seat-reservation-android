@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jed.choi.ble.BleSeatManager
+import jed.choi.domain.entity.Response
 import jed.choi.domain.usecase.ObserveUserState
 import jed.choi.domain.usecase.auth.SignInWithGoogle
 import jed.choi.domain.usecase.auth.SignOut
@@ -40,6 +42,8 @@ class BottomNavViewModel @Inject constructor(
     private val leaveAwaySeat: LeaveAwaySeat,
     private val resumeUsingSeat: ResumeUsingSeat,
     private val userCheckTimeout: UserCheckTimeout,
+    private val getUserSeat: GetUserSeat,
+    private val bleSeatManager: BleSeatManager,
 ) : ViewModel() {
 
     private val _mySeatUiState = MutableStateFlow(MySeatUiState("Unknown"))
@@ -174,6 +178,15 @@ class BottomNavViewModel @Inject constructor(
         viewModelScope.launch {
             reserveSeat.invoke(seatPath).collect() {
                 Log.e(TAG, "ReserveSeat Response : $it")
+                if (it is Response.Success && it.data) {
+                    val seat = getUserSeat.invoke()
+                    val uuid = seat?.bleUuid ?:return@collect
+                    val macAddress = seat.macAddress ?:return@collect
+                    val seatName = seat.name ?: return@collect
+                    val sectionNumber = 0
+                    val seatNumber = seat.number ?: return@collect
+                    bleSeatManager.startScan(uuid, macAddress, seatName, sectionNumber, seatNumber)
+                }
             }
         }
     }
@@ -190,6 +203,9 @@ class BottomNavViewModel @Inject constructor(
         viewModelScope.launch {
             stopUsing.invoke().collect {
                 Log.e(TAG, "StopUsing Response : $it")
+                if (it is Response.Success && it.data) {
+                    bleSeatManager.stopScan()
+                }
             }
         }
     }
@@ -198,6 +214,11 @@ class BottomNavViewModel @Inject constructor(
         viewModelScope.launch {
             startBusiness.invoke().collect {
                 Log.e(TAG, "StartBusiness Response : $it")
+                // TODO: timeout 된 경우에도 스캔을 시작해야 한다.
+                // TODO: isScanning에 따라 처리할것
+//                if (it is Response.Success && it.data) {
+//                    bleSeatManager.stopScan()
+//                }
             }
         }
     }
@@ -206,6 +227,15 @@ class BottomNavViewModel @Inject constructor(
         viewModelScope.launch {
             stopBusiness.invoke().collect {
                 Log.e(TAG, "StopBusiness Response : $it")
+//                if (it is Response.Success && it.data) {
+//                    val seat = getUserSeat.invoke()
+//                    val uuid = seat?.bleUuid ?:return@collect
+//                    val macAddress = seat.macAddress ?:return@collect
+//                    val seatName = seat.name ?: return@collect
+//                    val sectionNumber = 0
+//                    val seatNumber = seat.number ?: return@collect
+//                    bleSeatManager.startScan(uuid, macAddress, seatName, sectionNumber, seatNumber)
+//                }
             }
         }
     }
