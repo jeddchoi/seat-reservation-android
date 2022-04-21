@@ -1,9 +1,6 @@
-package jed.choi.domain
+package jed.choi.domain.entity
 
-import jed.choi.domain.entity.SeatEntity
-import jed.choi.domain.entity.SeatState
-
-data class Section(
+data class SectionEntity(
     val name: String = "Unknown",
     val number: Int? = null, // major in BLE Packet
     val seats: List<SeatEntity>? = emptyList(),

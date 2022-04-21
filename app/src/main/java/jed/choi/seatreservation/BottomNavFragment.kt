@@ -73,7 +73,7 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
             if (isGranted) {
                 // Permission is granted. Continue the action or workflow in your
                 // app.
-                Log.i(TAG, "onRequestPermissionsResult: Permission denied by user")
+                Log.i(TAG, "onRequestPermissionsResult: Permission granted by user")
 
             } else {
                 // Explain to the user that the feature is unavailable because the
@@ -202,12 +202,14 @@ class BottomNavFragment : BaseDataBindingFragment<BottomNavFragmentBinding, Bott
                 googleSignInLauncher.launch(googleSignInClient.signInIntent)
             }
             Event.ClickSignOut -> viewModel.onSignOut()
-            is Event.ClickReserveSeat -> viewModel.onReserveSeat(event.seatPath)
+            is Event.ClickReserveSeat -> setupPermissions {
+                viewModel.onReserveSeat(event.seatPath)
+            }
             Event.ClickStartUsing -> viewModel.onStartUsing()
             Event.ClickLeaveAwaySeat -> viewModel.onLeaveAwaySeat()
             Event.ClickResumeUsingSeat -> viewModel.onResumeUsingSeat()
-            Event.ClickStartBusiness -> viewModel.onStartBusiness()
-            Event.ClickStopBusiness -> viewModel.onStopBusiness()
+            Event.ClickStartBusiness -> setupPermissions { viewModel.onStartBusiness() }
+            Event.ClickStopBusiness -> setupPermissions { viewModel.onStopBusiness() }
             Event.ClickStopUsing -> viewModel.onStopUsing()
             Event.ClickUserCheckTimeout -> viewModel.onUserCheckTimeout()
         }

@@ -3,9 +3,6 @@ package jed.choi.ble
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.os.ParcelUuid
-import androidx.core.os.bundleOf
 import dagger.hilt.android.qualifiers.ApplicationContext
 import no.nordicsemi.android.support.v18.scanner.BluetoothLeScannerCompat
 import no.nordicsemi.android.support.v18.scanner.ScanFilter
@@ -15,35 +12,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.experimental.and
 
+
 @Singleton
 class BleSeatManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val scanner: BluetoothLeScannerCompat
+//    private val scanner: BluetoothLeScannerCompat
 ) {
-    private fun getScanSettings(callbackType: Int): ScanSettings = ScanSettings.Builder()
+    private fun getScanSettings(): ScanSettings = ScanSettings.Builder()
         .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
         .setNumOfMatches(1)
-        .setCallbackType(callbackType)
+        .setCallbackType(ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
         .setReportDelay(10000)
         .build()
-
-    private fun getPendingIntent(
-        requestCode: Int,
-        extra: Bundle? = null
-    ): PendingIntent {
-        // explicit intent
-        val intent = Intent(context, BleScanReceiver::class.java).apply {
-            action = ACTION_FOUND_DEVICE
-            extra?.let { putExtras(it) }
-        }
-
-        return PendingIntent.getBroadcast(
-            context,
-            requestCode,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-    }
 
     private fun getScanFilter(
         uuid: String,
@@ -53,90 +33,98 @@ class BleSeatManager @Inject constructor(
         seatNumber: Int
     ): ArrayList<ScanFilter> {
         val manufacturerData = ByteArray(23)
-        val major = integerToByteArray(sectionNumber)
-        manufacturerData[18] = major[0]
-        manufacturerData[19] = major[1]
-        val minor = integerToByteArray(seatNumber)
-        manufacturerData[20] = minor[0]
-        manufacturerData[21] = minor[1]
+        System.arraycopy(UuidToByteArray(uuid), 0, manufacturerData, 2, 16)
+        System.arraycopy(integerToByteArray(sectionNumber), 0, manufacturerData, 18, 2)
+        System.arraycopy(integerToByteArray(seatNumber), 0, manufacturerData, 20, 2)
 
         return arrayListOf(
-            ScanFilter.Builder().setServiceUuid(ParcelUuid(UUID.fromString(uuid))).build(),
-            ScanFilter.Builder().setDeviceAddress(macAddress).build(),
-            ScanFilter.Builder().setDeviceName(seatName).build(),
             ScanFilter.Builder()
+                .setDeviceAddress(macAddress)
+                .setDeviceName(seatName)
+                .setManufacturerData(MANUFACTURER_ID, manufacturerData, UUID_MASK)
                 .setManufacturerData(MANUFACTURER_ID, manufacturerData, MAJOR_BYTEARRAY_MASK)
-                .build(),
-            ScanFilter.Builder()
                 .setManufacturerData(MANUFACTURER_ID, manufacturerData, MINOR_BYTEARRAY_MASK)
-                .build()
+                .build(),
         )
     }
 
 
-    // when reservation or away
-    fun startScanMatchFirst(
+    fun startScan(
         uuid: String,
         macAddress: String,
         seatName: String,
         sectionNumber: Int,
-        seatNumber: Int
-    ) = scanner.startScan(
-        getScanFilter(uuid, macAddress, seatName, sectionNumber, seatNumber),
-        getScanSettings(ScanSettings.CALLBACK_TYPE_FIRST_MATCH),
-        context,
-        getPendingIntent(REQUEST_CODE_MATCH_FIRST, bundleOf()),
-        REQUEST_CODE_MATCH_FIRST
-    )
-
-
-    //  when using seat
-    fun startScanMatchLost(
-        uuid: String,
-        macAddress: String,
-        seatName: String,
-        sectionNumber: Int,
-        seatNumber: Int
-    ) = scanner.startScan(
-        getScanFilter(uuid, macAddress, seatName, sectionNumber, seatNumber),
-        getScanSettings(ScanSettings.CALLBACK_TYPE_MATCH_LOST),
-        context,
-        getPendingIntent(REQUEST_CODE_MATCH_LOST, bundleOf()),
-        REQUEST_CODE_MATCH_LOST
-    )
-
-
-    fun stopScan(requestCode: Int) {
-        // To stop scanning use the same PendingIntent and request code as one used to start scanning.
-        val pendingIntent = getPendingIntent(requestCode)
-        scanner.stopScan(context, pendingIntent, requestCode)
+        seatNumber: Int,
+    ) {
+        BluetoothLeScannerCompat.getScanner().startScan(
+            getScanFilter(uuid, macAddress, seatName, sectionNumber, seatNumber),
+            getScanSettings(),
+            context,
+            PendingIntent.getBroadcast(
+                context,
+                REQUEST_CODE_ALL_MATCHES,
+                Intent(context, BleScanReceiver::class.java).apply {
+                    action = ACTION_FOUND_DEVICE
+                },
+                PendingIntent.FLAG_UPDATE_CURRENT
+            ),
+            REQUEST_CODE_ALL_MATCHES
+        )
     }
 
-
+    fun stopScan() {
+        // To stop scanning use the same PendingIntent and request code as one used to start scanning.
+        BluetoothLeScannerCompat.getScanner().stopScan(
+            context,
+            PendingIntent.getBroadcast(
+                context,
+                REQUEST_CODE_ALL_MATCHES,
+                Intent(context, BleScanReceiver::class.java).apply { action = ACTION_FOUND_DEVICE },
+                PendingIntent.FLAG_CANCEL_CURRENT
+            ),
+            REQUEST_CODE_ALL_MATCHES
+        )
+    }
 
 
     companion object {
         const val ACTION_FOUND_DEVICE = "jed.choi.seatreservation.ACTION_FOUND_DEVICE"
-        const val REQUEST_CODE_MATCH_FIRST = 1001
-        const val REQUEST_CODE_MATCH_LOST = 1002
+        const val REQUEST_CODE_ALL_MATCHES = 1001
         const val MANUFACTURER_ID = 0x59 // Nordic Semiconductor
+        const val EXTRA_SEAT_STATE = "jed.choi.seatreservation.SEAT_STATE"
+        val UUID_MASK = byteArrayOf(
+            0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0
+        )
         val MAJOR_BYTEARRAY_MASK = byteArrayOf(
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            // major
-            1, 1,
-            // minor
-            0, 0,
-            0
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0
         )
         val MINOR_BYTEARRAY_MASK = byteArrayOf(
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            // major
-            0, 0,
-            // minor
-            1, 1,
-            0
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0
         )
     }
+}
+
+
+/**
+ * see https://github.com/inthepocket/ibeacon-scanner-android/blob/e2af105de79a66cb0217e5f069c68ce20fcd3b78/ibeaconscanner/src/main/java/mobi/inthepocket/android/beacons/ibeaconscanner/utils/ConversionUtils.java#L52
+ * Converts a [UUID] to a byte[]. This is used to create a [android.bluetooth.le.ScanFilter].
+ * From http://stackoverflow.com/questions/29664316/bluetooth-le-scan-filter-not-working.
+ *
+ * @param uuid UUID to convert to a byte[]
+ * @return byte[]
+ */
+fun UuidToByteArray(uuid: String): ByteArray {
+    val hex: String = uuid.replace("-", "")
+    val length = hex.length
+    val result = ByteArray(length / 2)
+    var i = 0
+    while (i < length) {
+        result[i / 2] = ((Character.digit(hex[i], 16) shl 4) + Character.digit(
+            hex[i + 1], 16
+        )).toByte()
+        i += 2
+    }
+    return result
 }
 
 /**
