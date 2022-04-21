@@ -14,6 +14,12 @@ class SignInWithGoogle @Inject constructor(
     suspend operator fun invoke(idToken: String) = flow {
         try {
             emit(Response.Loading)
+            val s = Result.failure<Boolean>(RuntimeException(""))
+            s.onFailure {
+
+            }
+            if (s.isSuccess) {
+            }
             // new user
             if (authRepository.signInWithGoogle(idToken) && !authRepository.createUserInFirestore()) {
                 throw RuntimeException("sign in with google and create user in firestore failed")
